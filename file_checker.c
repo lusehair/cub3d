@@ -91,13 +91,11 @@ int SizeLineMap(struct s_buildmap *mapbuilder)
 
 
 int    initstyle(int fd, t_initstyle *confstyle)
-{  
-    //int ret; 
+{   
     char *buff;
     int checkfull[8]; 
 	int i; 
 
-  
     i = 0; 
 	while(i < 8)
 	{	
@@ -111,11 +109,28 @@ int    initstyle(int fd, t_initstyle *confstyle)
             get_next_line(fd, &buff);
             ft_printf("c'est le buff %s\n", buff); 
             optselector(confstyle,buff,checkfull);
-            //free(buff);
         }
         free(buff);
+        ft_RBGtoINT(confstyle); 
     return (0);
 }
+
+void     ft_RBGtoINT(t_initstyle *confstyle)
+{
+    unsigned int red; 
+    unsigned int green; 
+    unsigned int blue;
+
+    red = confstyle->c_floor[0]; 
+    green = confstyle->c_floor[1]; 
+    blue = confstyle->c_floor[2];
+    confstyle->colorFloor = red * 256 * 256 + green * 256 + blue; 
+    red = confstyle->c_sky[0]; 
+    green = confstyle->c_sky[1]; 
+    blue = confstyle->c_sky[2];
+    confstyle->colorSky = red * 256 * 256 + green * 256 + blue; 
+}
+
 
 struct s_buildmap      *initmap(int fd)
 {

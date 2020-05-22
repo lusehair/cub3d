@@ -4,6 +4,8 @@
 #include "libft/libft.h"
 #include "libft/ft_printf/ft_printf.h"
 #include <math.h> 
+#include "mlx.h"
+
 
 
 typedef struct		s_initstyle
@@ -19,7 +21,9 @@ typedef struct		s_initstyle
     char *t_pathwest; 
 	char *t_pathsprite;  
     int  largmap; 
-    int  longmap;   
+    int  longmap; 
+    unsigned int colorSky; 
+    unsigned int colorFloor;   
 }					t_initstyle;
 
 
@@ -29,47 +33,75 @@ typedef struct		s_initstyle
 #define RGB_BLUE 255; 
 #define RGB_GREEN 65280; 
 #define RGB_YELLOW 16776960; 
+#define UP 126
+#define RIGHT 123
+#define LEFT 124
+#define DOWN 125
+#define SPEED 0.10
+#define TURN 0.05
+
 
 
 typedef struct s_raycast
 {
-    float pix; 
-    float ratio; 
-    float dirX; 
-    float dirY; 
-    int mapX; 
-    int mapY; 
-    float deltaDistY; 
-    float deltaDistX; 
-    float stepX; 
-    float stepY; 
-    float sideDistX; 
-    float sideDistY; 
-    int hit; 
-    int side; 
-    float perpWallDist; 
-    int wallcolor; 
-
+    double posX;  //x and y start position
+   double posY; 
+   double dirX; //initial direction vector
+   double dirY; 
+   double planeX ; //the 2d raycaster version of camera plane
+   double planeY; 
+   int w ; 
+   int h; 
+   int color ; 
+  double cameraX; 
+  double rayDirX; 
+  double rayDirY;
+  int mapX; 
+  int mapY; 
+  double sideDistX;
+  double sideDistY; 
+  double deltaDistX;
+  double deltaDistY; 
+  double perpWallDist; 
+  int stepX; 
+  int stepY; 
+  int hit; 
+  int side;
+  int lineHeight; 
+  int drawStart; 
+  int drawEnd; 
+  int x;
 
 }       t_raycast; 
 
-typedef struct s_camera
+
+typedef struct s_pos
 {
-    int x; 
-    int y; 
-    float speed; 
-    float angle; 
-    float rotate_speed;  
-    float hCamera; 
-    float fov; 
+    int posX; 
+    int posY; 
+    int dirX; 
+    int dirY; 
+}              t_pos; 
 
-    int Xscreen;
-    int Yscreen; 
+typedef struct	s_img
+{
+	void		*img_ptr;
+	unsigned int			*data; 
+	int			size_l;
+	int			bpp;
+	int			endian;
+}				t_img;
 
-
-
-    char direction;
-}   t_camera; 
+typedef struct	s_mlx
+{
+	void		*mlx_ptr;
+	void		*win;
+	t_img		img;
+    char        **mapchar;
+    t_raycast   raycast;
+    t_pos       pos; 
+    t_initstyle confstyle; 
+}				t_mlx;
 
 
 
@@ -100,11 +132,12 @@ int SizeLineMap(struct s_buildmap *mapbuilder);
 int printmap(t_buildmap *mapbuilder);
 char     **get_map(int fd, t_initstyle *confstyle); 
 int   mini_drawmap(char **mapchar, void *mlx_ptr, void *win_ptr);
-t_camera    getCampos(char **mapchar);
-int mini_drawcam(char **mapchar, void *mlx_ptr, void *win_ptr, t_camera cam);
-void    initcam(t_camera *cam); 
-int     drawline(int x1, int y1, int x2, int y2, void *mlx_ptr,void *win_ptr, int color);
-int     ft_drawwalls(void *mlx_ptr, void *win_ptr, char **mapchar, t_initstyle *style, t_camera *cam); 
+t_pos    getCampos(char **mapchar);
+int     drawline(int x1, int y1, int y2, t_mlx *print, unsigned int color);
+int     ft_drawwalls(t_mlx *print);
+void    ft_initrcstruct(t_raycast *raycast,  t_initstyle *style, t_pos pos);
+void     ft_RBGtoINT(t_initstyle *confstyle);
+
 
 
 int     initstyle(int fd, t_initstyle *confstyle); 

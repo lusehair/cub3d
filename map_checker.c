@@ -79,24 +79,47 @@ int     **convint(char **chartab)
     return(intret);
 }
 
-t_camera    getCampos(char **mapchar)
+t_pos    getCampos(char **mapchar)
 {
     int x; 
     int y; 
-    t_camera Pos;
+    t_pos pos; 
 
     x = 0;
     y = 0;
     while(mapchar[y])
     {
+        //ft_printf("%s\n", mapchar[y]); 
         while(mapchar[y][x])
         {
-            if(mapchar[y][x] == 'N' || mapchar[y][x] == 'W' || mapchar[y][x] == 'W' 
+            //ft_printf("%c\n", mapchar[y][x]);
+            if(mapchar[y][x] == 'N' || mapchar[y][x] == 'W' || mapchar[y][x] == 'E' 
             || mapchar[y][x] == 'S')
             {
-                Pos.x = x;
-                Pos.y = y; 
-                Pos.direction = mapchar[y][x]; 
+                puts("ohoho");
+                pos.posX = x;
+                pos.posY = y; 
+                if(mapchar[y][x] == 'N')
+                {
+                    pos.dirX = 0;
+                    pos.dirY = 1;
+                }
+                if(mapchar[y][x] == 'S')
+                {
+                    pos.dirX = 0;
+                    pos.dirY = -1;
+                }
+                if(mapchar[y][x] == 'W')
+                {
+                    pos.dirX = -1;
+                    pos.dirY = 0;
+                }
+                if(mapchar[y][x] == 'E')
+                {
+                    pos.dirX = 1;
+                    //puts("c'est E");
+                    pos.dirY = 0;
+                }
                 mapchar[y][x] = '0';
             }   
         x++;
@@ -104,8 +127,9 @@ t_camera    getCampos(char **mapchar)
         x = 0;
         y++;
     }
-   
-    return (Pos);
+    //ft_printf("c'est le posX %d et le dirY %d\n", pos.posX, pos.dirY); 
+    return (pos); 
+
 }
 
 char     **get_map(int fd, t_initstyle *confstyle)
@@ -122,7 +146,9 @@ char     **get_map(int fd, t_initstyle *confstyle)
             if(i == 0)
                 mapchar = malloc(sizeof(char*) * (ft_strlen(line) + 1)); 
             if(!(mapchar[i] = line_checker(line, confstyle, i))) ft_printf("ERRORMAP\n") ;
+            
             free(line);
+
             i++; 
         }
     }

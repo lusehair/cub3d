@@ -23,19 +23,8 @@
         return (0);
     }
 
-    int mini_drawcam(char **mapchar, void *mlx_ptr, void *win_ptr, t_camera cam) 
-    {
-        mini_drawblock(cam.x*10, cam.y*10, 16711680, mlx_ptr, win_ptr);
-        initcam(&cam);
-        return (0);
-    }
 
-    void    initcam(t_camera *cam)
-    {
-        cam->speed = 0.1; 
-        cam->angle = 0;
-        cam->rotate_speed = 0.02; 
-    }
+
 
     int   mini_drawmap(char **mapchar, void *mlx_ptr, void *win_ptr)
     {
