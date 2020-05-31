@@ -14,116 +14,6 @@
 #define RGB_Yellow 16776960
 
 
-int   ft_onward(t_mlx *print)
-{
-    if(print->mapchar[(int)(print->raycast.posY + print->raycast.dirY * 0.10)][(int)print->raycast.posX] == '0')
-        print->raycast.posY += print->raycast.dirY * 0.20; 
-    if(print->mapchar[(int)print->raycast.posY][(int)(print->raycast.posX + print->raycast.dirX * 0.10)] == '0')
-        print->raycast.posX += print->raycast.dirX * 0.20; 
-    //mlx_destroy_image(print->mlx_ptr, print->img.img_ptr); 
-      //free(print->img.data);
-    //free(print->img.img_ptr);
-    ft_bzero(print->img.data, print->raycast.w * print->raycast.h * 4);
-    ft_drawwalls(print);  
-    
- 
-    //puts("MADAFAUP");
-    return (1);
-
-}
-
-int  ft_onright(t_mlx *print)
-{
-    double temp; 
-    double tempPlaneX; 
-
-    temp= print->raycast.dirX; 
-    tempPlaneX = print->raycast.planeX;
-    print->raycast.dirX = print->raycast.dirX * cos(-0.25) - print->raycast.dirY * sin(-0.25); 
-    print->raycast.dirY = temp * sin(-0.25) + print->raycast.dirY * cos(-0.25); 
-    temp = print->raycast.planeX; 
-    print->raycast.planeX = print->raycast.planeX * cos(-0.25) - print->raycast.planeY * sin(-0.25); 
-    print->raycast.planeY = temp * sin(-0.25) + print->raycast.planeY * cos(-0.25); 
-    ft_bzero(print->img.data, print->raycast.w * print->raycast.h * 4);
-      //free(print->img.data);
-    //free(print->img.img_ptr);
-    //mlx_destroy_image(print->mlx_ptr, print->img.img_ptr); 
-
-    ft_drawwalls(print); 
-    //puts("ON THE RIGHT"); 
-    return (1);
-
-}
-
-int ft_onleft(t_mlx *print)
-{
-    double temp; 
-    double tempPlaneX; 
-
-    temp= print->raycast.dirX; 
-    tempPlaneX = print->raycast.planeX;
-    print->raycast.dirX = print->raycast.dirX * cos(0.25) - print->raycast.dirY * sin(0.25); 
-    print->raycast.dirY = temp * sin(0.25) + print->raycast.dirY * cos(-0.25); 
-    temp = print->raycast.planeX; 
-    print->raycast.planeX = print->raycast.planeX * cos(0.25) - print->raycast.planeY * sin(0.25); 
-    print->raycast.planeY = temp * sin(0.25) + print->raycast.planeY * cos(0.25); 
-    ft_bzero(print->img.data, print->raycast.w * print->raycast.h * 4);
-     // free(print->img.data);
-    //free(print->img.img_ptr);
-    //mlx_destroy_image(print->mlx_ptr, print->img.img_ptr); 
-    ft_drawwalls(print); 
-    //puts("ON THE LEFT"); 
-    return (1);
-}
-
-int ft_forward(t_mlx *print)
-{
-    if(print->mapchar[(int)(print->raycast.posY + print->raycast.dirY * 0.10)][(int)print->raycast.posX] == '0')
-        print->raycast.posY -= print->raycast.dirY * 0.20; 
-    if(print->mapchar[(int)print->raycast.posY][(int)(print->raycast.posX + print->raycast.dirX * 0.10)] == '0')
-        print->raycast.posX -= print->raycast.dirX * 0.20; 
-    ft_bzero(print->img.data, print->raycast.w * print->raycast.h * 4);
-
-    //mlx_destroy_image(print->mlx_ptr, print->img.img_ptr); 
-     // free(print->img.data);
-    //free(print->img.img_ptr);
-    ft_drawwalls(print);  
-    //puts("MADAFADOWN");
-    return (1);
-}
-
-
-
-
-int    keycode(int key, void *bidule)
-{
-    int put;
-   
-    if(key == UP)
-    {
-        ft_printf("UP\n");
-        ft_onward(bidule); 
-    }
-    if(key == DOWN)
-    {
-        ft_printf("DOWN\n");
-        ft_forward(bidule); 
-    }
-    if(key == LEFT)
-    {
-        ft_printf("LEFT");
-        ft_onleft(bidule);
-    }
-    if(key == RIGHT)
-    {
-        ft_printf("RIGHT\n");
-        ft_onright(bidule);
-    }
-    //ft_drawwalls(bidule); 
-    return(1);
-}
-
-
 int     main(int argc, char **argv)
 {
 
@@ -154,10 +44,12 @@ int     main(int argc, char **argv)
     
     //if(print.raycast.w)
     ft_initrcstruct(&print.raycast,&print.confstyle, print.pos); 
+    ft_opentexture(&print); 
     print.img.img_ptr = mlx_new_image(print.mlx_ptr, print.raycast.w, print.raycast.h);
     print.img.data = (unsigned int *)mlx_get_data_addr(print.img.img_ptr, &print.img.bpp, &print.img.size_l, &print.img.endian);
     ft_drawwalls(&print);
     mlx_hook(print.win,2,0 ,keycode,&print); 
+    mlx_hook(print.win, 17, 0, ft_close, &print); 
     //mlx_put_image_to_window(print.mlx_ptr, print.win, print.img.img_ptr, 0, 0);
     mlx_loop(print.mlx_ptr);
 

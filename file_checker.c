@@ -9,12 +9,8 @@ void       conf_reseter(struct s_initstyle *confstyle)
     confstyle->t_pathsouth = NULL; 
     confstyle->t_patheast = NULL; 
     confstyle->t_pathwest = NULL;
-
     confstyle->t_pathsprite = NULL;  
-
 }
-
-
 
 int     checkfullopt(int *checkfull)
 {
@@ -61,34 +57,6 @@ int    optselector(t_initstyle *confstyle, char *buff, int *checkfull)
     return (1);
 }
 
-int    mappush(struct s_buildmap **prec, char *line)
-{
-    struct s_buildmap *newline; 
-    static int nb;
-
-
-    if (!(newline = malloc(sizeof(struct s_buildmap))))
-        return (-1);
-    newline->m_line = ft_strdup(line); 
-    newline->m_nbline = nb + 1; 
-    newline->precline = *prec; 
-    *prec = newline; 
-    return (ft_strlen(newline->m_line));
-}
-
-int SizeLineMap(struct s_buildmap *mapbuilder)
-{
-        int n;
-
-        n = 0;
-        while(mapbuilder)
-          {
-              n++;
-              mapbuilder = mapbuilder->precline;
-          }
-        return n;
-}
-
 
 int    initstyle(int fd, t_initstyle *confstyle)
 {   
@@ -107,10 +75,10 @@ int    initstyle(int fd, t_initstyle *confstyle)
         while (checkfullopt(checkfull) == 1)
         {
             get_next_line(fd, &buff);
-            ft_printf("c'est le buff %s\n", buff); 
+            //ft_printf("c'est le buff %s\n", buff); 
             optselector(confstyle,buff,checkfull);
         }
-        free(buff);
+        //free(buff);
         ft_RBGtoINT(confstyle); 
     return (0);
 }
@@ -130,26 +98,3 @@ void     ft_RBGtoINT(t_initstyle *confstyle)
     blue = confstyle->c_sky[2];
     confstyle->colorSky = red * 256 * 256 + green * 256 + blue; 
 }
-
-
-struct s_buildmap      *initmap(int fd)
-{
-    int ret; 
-    struct s_buildmap *mapbuilder; 
-	char *buff; 
-    int a; 
-    int b; 
-
-    b = 0;
-    mapbuilder = NULL;
-    while((ret = get_next_line(fd, &buff)) > 0)
-    {
-        if(buff != NULL)
-            mappush(&mapbuilder, buff); 
-        
-    }
-
-    return (mapbuilder);
-} 
-
-

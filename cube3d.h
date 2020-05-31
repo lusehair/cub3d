@@ -39,6 +39,7 @@ typedef struct		s_initstyle
 #define DOWN 125
 #define SPEED 0.10
 #define TURN 0.05
+#define ESC 53
 
 
 
@@ -71,16 +72,30 @@ typedef struct s_raycast
   int drawStart; 
   int drawEnd; 
   int x;
+  double			texx;
+    double			texy;
+    	double			wall_x;
+        int hline;
 
 }       t_raycast; 
+
+typedef struct  s_texture
+{ 
+    void *img; 
+    int img_weight; 
+    int img_width;
+    int t_size;
+        int *data;
+} t_texture; 
+
 
 
 typedef struct s_pos
 {
-    int posX; 
-    int posY; 
-    int dirX; 
-    int dirY; 
+    float posX; 
+    float posY; 
+    float dirX; 
+    float dirY; 
 }              t_pos; 
 
 typedef struct	s_img
@@ -101,6 +116,10 @@ typedef struct	s_mlx
     t_raycast   raycast;
     t_pos       pos; 
     t_initstyle confstyle; 
+    t_texture   texteast; 
+    t_texture   textwest; 
+    t_texture   textsouth; 
+    t_texture   textnorth; 
 }				t_mlx;
 
 
@@ -133,10 +152,17 @@ int printmap(t_buildmap *mapbuilder);
 char     **get_map(int fd, t_initstyle *confstyle); 
 int   mini_drawmap(char **mapchar, void *mlx_ptr, void *win_ptr);
 t_pos    getCampos(char **mapchar);
-int     drawline(int x1, int y1, int y2, t_mlx *print, unsigned int color);
+int     drawline(int x1, int y1, int y2, t_mlx *print, int color);
 int     ft_drawwalls(t_mlx *print);
-void    ft_initrcstruct(t_raycast *raycast,  t_initstyle *style, t_pos pos);
+int    ft_initrcstruct(t_raycast *raycast,  t_initstyle *style, t_pos pos);
 void     ft_RBGtoINT(t_initstyle *confstyle);
+int    keycode(int key, void *bidule); 
+int ft_close(t_mlx *print);
+int     ft_checkone(char *line, int i); 
+int     ft_opentexture(t_mlx *print);
+int     drawall(int x, int y1, int y2, t_mlx *print); 
+
+
 
 
 

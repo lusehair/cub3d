@@ -1,10 +1,13 @@
 #include "cube3d.h"
 
-void    ft_initrcstruct(t_raycast *raycast,  t_initstyle *style, t_pos pos)
+int   ft_initrcstruct(t_raycast *raycast,  t_initstyle *style, t_pos pos)
 {
-
+    
+    //  if (!((raycast = malloc(sizeof(t_raycast)))))
+    //  { 
+    //     return (-1); 
+    //  }
     raycast->posX = pos.posX; 
-    ft_printf("c'est le posX %d\n", raycast->posX); 
     raycast->posY = pos.posY; 
     raycast->dirX = pos.dirX; 
     raycast->dirY = pos.dirY; 
@@ -12,24 +15,14 @@ void    ft_initrcstruct(t_raycast *raycast,  t_initstyle *style, t_pos pos)
     raycast->h = style->r_res[1]; 
     raycast->hit = 0; 
     raycast->planeX = 0; 
-    raycast->planeY = 0.70;
-
-
+    raycast->planeY = 0.77;
+    return (0);
 }
 
 int     ft_drawwalls(t_mlx *print)
 {
-    //t_raycast raycast; 
-    
-   
-
 
   int x = 0; 
-   
-    //print->img.img_ptr = mlx_new_image(print->mlx_ptr, print->raycast.posX, print->raycast.posY);
-    //print->img.data = (int *)mlx_get_data_addr(print->img.img_ptr, &print->img.bpp, &print->img.size_l, &print->img.endian);
-
-puts ("just here");
 
     while(x < print->raycast.w)
     {
@@ -121,20 +114,26 @@ puts ("just here");
       switch(print->mapchar[print->raycast.mapY][print->raycast.mapX])
       {
         case '1':  print->raycast.color = RGB_RED;    break; //red
-        //case '0':  print->raycast.color = RGB_GREEN;  break; //green
-        //case '3':  print->raycast.color = RGB_BLUE;   break; //blue
-        //case '4':  print->raycast.color = RGB_WHITE;  break; //white
-        //default: print->raycast.color = RGB_YELLOW; break; //yellow
+       
       }
       //give x and y sides different brightness
       if(print->raycast.side == 1) {print->raycast.color = print->raycast.color / 2;}
 
       //draw the pixels of the stripe as a vertical line
       //puts("before the damage0");
-      //printf("ceci est la couleur %d\n", print->confstyle.colorFloor); 
-      drawline(x,print->confstyle.r_res[1]/5,print->confstyle.r_res[1], print, print->confstyle.colorFloor); 
-      drawline(x, print->raycast.drawStart, print->raycast.drawEnd, print, print->raycast.color);
+      //printf("ceci est la couleur %d\n", print->confstyle.colorFloor);
+      if (print->raycast.side == 1)
+		      print->raycast.wall_x = print->raycast.posX + ((print->raycast.mapY - print->raycast.posY + (1 - print->raycast.stepY)
+					/ 2) / print->raycast.rayDirY) * print->raycast.rayDirX;
+	    else
+	    	print->raycast.wall_x = print->raycast.posY + ((print->raycast.mapX - print->raycast.posX + (1 - print->raycast.stepX)
+					/ 2) / print->raycast.rayDirX) * print->raycast.rayDirY;
+        print->raycast.texx = print->raycast.wall_x * print->texteast.img_width;
+
+
+      drawline(x,print->confstyle.r_res[1]/4,print->confstyle.r_res[1], print, print->confstyle.colorFloor); 
       drawline(x, 0,print->raycast.drawStart, print, print->confstyle.colorSky); 
+      drawall(x, print->raycast.drawStart, print->raycast.drawEnd, print);
     
 
             //puts("just before");
