@@ -99,8 +99,7 @@ int     ft_drawwalls(t_mlx *print)
       else
         print->raycast.perpWallDist = (print->raycast.mapY - print->raycast.posY + (1 - print->raycast.stepY) / 2) / print->raycast.rayDirY; 
            //Calculate height of line to draw on screen
-      print->raycast.lineHeight = (int)(print->raycast.h / print->raycast.perpWallDist);
-
+      print->raycast.lineHeight = abs((int)(print->raycast.h / print->raycast.perpWallDist));
       //calculate lowest and highest pixel to fill in current stripe
       print->raycast.drawStart = -print->raycast.lineHeight / 2 + print->raycast.h / 2;
       if(print->raycast.drawStart < 0)
@@ -128,9 +127,8 @@ int     ft_drawwalls(t_mlx *print)
 	    else
 	    	print->raycast.wall_x = print->raycast.posY + ((print->raycast.mapX - print->raycast.posX + (1 - print->raycast.stepX)
 					/ 2) / print->raycast.rayDirX) * print->raycast.rayDirY;
-        print->raycast.texx = print->raycast.wall_x * print->texteast.img_width;
-
-
+        //print->raycast.texx = print->texteast.img_width - (print->raycast.wall_x * print->texteast.img_width) - 1;
+       
       drawline(x,print->confstyle.r_res[1]/4,print->confstyle.r_res[1], print, print->confstyle.colorFloor); 
       drawline(x, 0,print->raycast.drawStart, print, print->confstyle.colorSky); 
       drawall(x, print->raycast.drawStart, print->raycast.drawEnd, print);
