@@ -24,6 +24,7 @@ typedef struct		s_initstyle
     int  longmap; 
     unsigned int colorSky; 
     unsigned int colorFloor;   
+    int nbsprite; 
 }					t_initstyle;
 
 
@@ -41,6 +42,12 @@ typedef struct		s_initstyle
 #define TURN 0.05
 #define ESC 53
 
+typedef struct s_sprite
+{
+    double x; 
+    double y; 
+    double dist; 
+} t_sprite; 
 
 
 typedef struct s_raycast
@@ -73,11 +80,16 @@ typedef struct s_raycast
   int drawEnd; 
   int x;
   double			texx;
-    double			texy;
-    	double			wall_x;
-        int hline;
+  double			texy;
+  double			wall_x;
+  int hline;
+  t_sprite *sprites;
+  int *spriteOrder;
+  int *spriteDistance;  
 
 }       t_raycast; 
+
+
 
 typedef struct  s_texture
 { 
@@ -85,7 +97,9 @@ typedef struct  s_texture
     int img_weight; 
     int img_width;
     int t_size;
-        int *data;
+    int bpp; 
+    int endian;
+    int *data;
 } t_texture; 
 
 
@@ -120,6 +134,7 @@ typedef struct	s_mlx
     t_texture   textwest; 
     t_texture   textsouth; 
     t_texture   textnorth; 
+    t_texture   textsprite; 
 }				t_mlx;
 
 
@@ -159,8 +174,10 @@ void     ft_RBGtoINT(t_initstyle *confstyle);
 int    keycode(int key, void *bidule); 
 int ft_close(t_mlx *print);
 int     ft_checkone(char *line, int i); 
-int     ft_opentexture(t_mlx *print);
+void     ft_opentexture(t_mlx *print);
 int     drawall(int x, int y1, int y2, t_mlx *print); 
+int  insertex(t_mlx *print);
+int     ft_initsprites(t_mlx *data);
 
 
 

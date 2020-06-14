@@ -10,6 +10,7 @@ void       conf_reseter(struct s_initstyle *confstyle)
     confstyle->t_patheast = NULL; 
     confstyle->t_pathwest = NULL;
     confstyle->t_pathsprite = NULL;  
+    confstyle->nbsprite = 0;
 }
 
 int     checkfullopt(int *checkfull)
@@ -33,9 +34,8 @@ int    optselector(t_initstyle *confstyle, char *buff, int *checkfull)
         if((checkfull[0] = selecres(confstyle,buff)) == 1)
             return (0); 
     if (checkfull[1] == 0)
-        if ((checkfull[1] =  selecpathno(confstyle,buff)) == 1)
+        if ((checkfull[1] =  selecpathwe(confstyle,buff)) == 1)
             return (0);  
-    checkfull[1] = 1;
     if (checkfull[2] == 0)
         if((checkfull[2] =  selecpathso(confstyle,buff)) == 1)
             return (0);
@@ -43,7 +43,7 @@ int    optselector(t_initstyle *confstyle, char *buff, int *checkfull)
         if((checkfull[3] =  selecpathea(confstyle,buff)) == 1)
                  return(0);
     if(checkfull[4] == 0)    
-            if((checkfull[4] =  selecpathwe(confstyle,buff)) == 1)
+            if((checkfull[4] =  selecpathno(confstyle,buff)) == 1)
             return (0);
     if (checkfull[5] == 0)
         if((checkfull[5] =  selecfloor(confstyle,buff)) == 1)
@@ -75,8 +75,9 @@ int    initstyle(int fd, t_initstyle *confstyle)
         while (checkfullopt(checkfull) == 1)
         {
             get_next_line(fd, &buff);
-            //ft_printf("c'est le buff %s\n", buff); 
+            ft_printf("c'est le buff %s\n", buff); 
             optselector(confstyle,buff,checkfull);
+            free(buff);
         }
         //free(buff);
         ft_RBGtoINT(confstyle); 

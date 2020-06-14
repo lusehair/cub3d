@@ -28,7 +28,6 @@ char *line_checker(char *line, t_initstyle *confstyle, int nb)
         i++;
     }
     temp[i] = '\0';
-    //ft_printf("convert line %s and size %zu\n", temp, ft_strlen(temp));
     return (temp); 
 }
 
@@ -107,6 +106,21 @@ int     ft_checkone(char *line, int i)
     return (0);
 }
 
+int     ft_countsprite(char *line)
+{
+    int i; 
+    int sprite;  
+
+    sprite = 0; 
+    i = 0;
+    while (line[i] != '\0')
+    {
+        if (line[i] == '2')
+            sprite++; 
+        i++;
+    }
+    return (sprite);
+}
 
 char     **get_map(int fd, t_initstyle *confstyle)
 {
@@ -128,14 +142,15 @@ char     **get_map(int fd, t_initstyle *confstyle)
                 
                 exit(0);
             } 
+            confstyle->nbsprite += ft_countsprite(line);
             free(line);
             i++; 
         }
     }
+    ft_printf("this is sprite %d\n", confstyle->nbsprite);
      if (ft_checkone(mapchar[i-1], -1) == -1)
         {
-            ft_printf("the last line : %s\n", line);
-            ft_printf("Not Valid Map\n");
+        ft_printf("Not Valid Map\n");
             exit(0);
         } 
     return (mapchar); 

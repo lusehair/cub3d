@@ -20,19 +20,43 @@ int     drawline(int x, int y1, int y2, t_mlx *print , int color)
 }
 
 
+t_texture   selecwall(t_mlx *print)
+{
+
+    t_texture   texture; 
+
+
+    if(print->raycast.side == 0 && print->raycast.rayDirX > 0)
+        texture = print->texteast; 
+    else if(print->raycast.side == 0 && print->raycast.rayDirX  < 0)
+        texture = print->textwest; 
+    else if(print->raycast.side == 1 && print->raycast.rayDirY > 0)
+        texture = print->textnorth; 
+    else
+        texture = print->textsouth;
+
+    return(texture); 
+}
+
+
+
 int     drawall(int x, int y1, int y2, t_mlx *print)
 {
     unsigned int color;
     int i = y1;
+    t_texture text; 
+
+    text = selecwall(print); 
 
 
-                    print->raycast.wall_x -= floor((print->raycast.wall_x));
+        print->raycast.wall_x -= floor((print->raycast.wall_x));
 
-        print->raycast.texx = print->raycast.wall_x * print->texteast.img_width;
-        if (print->raycast.side == 0 && print->raycast.rayDirX > 0)
-            print->raycast.texx =  print->texteast.img_width - print->raycast.texx - 1;
-        if (print->raycast.side == 1 && print->raycast.rayDirY < 0)
-          print->raycast.texx =  print->texteast.img_width - print->raycast.texx - 1;
+        print->raycast.texx = print->raycast.wall_x * text.img_width;
+        // if (print->raycast.side == 0 && print->raycast.rayDirX > 0)
+        //     print->raycast.texx =  text.img_width - print->raycast.texx - 1;
+        // if (print->raycast.side == 1 && print->raycast.rayDirX < 0)
+        //   print->raycast.texx =  text.img_width - print->raycast.texx - 1;
+        
 
 
 	// if (side == 0 && raydirX > 0)
@@ -42,12 +66,12 @@ int     drawall(int x, int y1, int y2, t_mlx *print)
 
     while(y1 < y2)
     {
-    //    if(x % 2)
+    //    if(x % 2)]
             print->raycast.hline = abs((int)(print->raycast.h / print->raycast.perpWallDist));
             print->raycast.texy = (y1 * 2 - print->raycast.h + print->raycast.hline) * (64 / 2) / print->raycast.hline;
      
             //color = print->texteast.data[print->texteast.img_weight * (int)print->raycast.texy + (int)print->raycast.texx]; 
-            color = print->texteast.data[print->texteast.t_size / 4 * (int)print->raycast.texy + (int)print->raycast.texx];
+            color = text.data[text.t_size / 4 * (int)print->raycast.texy + (int)print->raycast.texx];
             print->img.data[y1 * print->confstyle.r_res[0]+ x] = color; 
 
 

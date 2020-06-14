@@ -21,10 +21,7 @@ int    selecres(struct s_initstyle *confstyle, char *buff)
             while(buff[i] == ' ')
                 i++; 
             confstyle->r_res[1] = ft_atoi(&buff[i]); 
-            //ft_printf("c'est buff i %c et le i %d et la len %d  : \n", buff[i], i, ft_strlen(buff));
-            //free(buff); 
-            return (1); 
-            
+            return (1);
         }
     i++;
     }

@@ -13,7 +13,7 @@ int    selecpathno(struct s_initstyle *confstyle, char *buff)
             i++; 
         if(buff[i] == 'N' && buff[i+1] == 'O')
         {
-            i = i +2 ; 
+            i = i +2; 
             while(buff[i] == ' ')
                 i++; 
             confstyle->t_pathnord = ft_strdup(&buff[i]);

@@ -44,14 +44,16 @@ int     main(int argc, char **argv)
     
     //if(print.raycast.w)
     ft_initrcstruct(&print.raycast,&print.confstyle, print.pos); 
-    ft_opentexture(&print); 
+    ft_initsprites(&print); 
     print.img.img_ptr = mlx_new_image(print.mlx_ptr, print.raycast.w, print.raycast.h);
     print.img.data = (unsigned int *)mlx_get_data_addr(print.img.img_ptr, &print.img.bpp, &print.img.size_l, &print.img.endian);
+    ft_printf("this is the number of sprite %d\n", print.confstyle.nbsprite);
+    ft_opentexture(&print);
     ft_drawwalls(&print);
     mlx_hook(print.win,2,0 ,keycode,&print); 
     mlx_hook(print.win, 17, 0, ft_close, &print); 
     //mlx_put_image_to_window(print.mlx_ptr, print.win, print.img.img_ptr, 0, 0);
-    mlx_loop(print.mlx_ptr);
+    mlx_loop(print.mlx_ptr); 
 
     
     return (0);
