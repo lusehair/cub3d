@@ -2,11 +2,6 @@
 
 int   ft_initrcstruct(t_raycast *raycast,  t_initstyle *style, t_pos pos)
 {
-    
-    //  if (!((raycast = malloc(sizeof(t_raycast)))))
-    //  { 
-    //     return (-1); 
-    //  }
     raycast->posX = pos.posX; 
     raycast->posY = pos.posY; 
     raycast->dirX = pos.dirX; 
@@ -104,7 +99,6 @@ int     ft_drawwalls(t_mlx *print)
       print->raycast.drawStart = -print->raycast.lineHeight / 2 + print->raycast.h / 2;
       if(print->raycast.drawStart < 0)
       {
-        //puts("not bad");
         print->raycast.drawStart = 0;
       }
       print->raycast.drawEnd = print->raycast.lineHeight / 2 + print->raycast.h / 2;
@@ -132,20 +126,13 @@ int     ft_drawwalls(t_mlx *print)
       drawline(x,print->confstyle.r_res[1]/4,print->confstyle.r_res[1], print, print->confstyle.colorFloor); 
       drawline(x, 0,print->raycast.drawStart, print, print->confstyle.colorSky); 
       drawall(x, print->raycast.drawStart, print->raycast.drawEnd, print);
-    
-
-            //puts("just before");
-
       x++;
+      print->raycast.ZBuffer[x] = print->raycast.perpWallDist; 
     }
-    
-    //puts("before the damage");
+    ft_drawsprite(print);
+    puts("before the damage");
     mlx_put_image_to_window(print->mlx_ptr, print->win, print->img.img_ptr, 0, 0);
-    //free(print->img.img_ptr);
-    //free(print->img.data);
-
-   
-    
-
    return (0);
 }
+
+//1297437786

@@ -29,7 +29,6 @@ int     checkfullopt(int *checkfull)
 
 int    optselector(t_initstyle *confstyle, char *buff, int *checkfull)
 {
-    
     if (checkfull[0] == 0)
         if((checkfull[0] = selecres(confstyle,buff)) == 1)
             return (0); 
@@ -71,16 +70,14 @@ int    initstyle(int fd, t_initstyle *confstyle)
         i++; 
     }
     conf_reseter(confstyle);
-    
-        while (checkfullopt(checkfull) == 1)
-        {
-            get_next_line(fd, &buff);
-            ft_printf("c'est le buff %s\n", buff); 
-            optselector(confstyle,buff,checkfull);
-            free(buff);
-        }
-        //free(buff);
-        ft_RBGtoINT(confstyle); 
+    while (checkfullopt(checkfull) == 1)
+    {
+      get_next_line(fd, &buff);
+      ft_printf("c'est le buff %s\n", buff);
+      optselector(confstyle,buff,checkfull);
+      free(buff);
+    }
+    ft_RBGtoINT(confstyle); 
     return (0);
 }
 

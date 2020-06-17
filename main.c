@@ -19,9 +19,7 @@ int     main(int argc, char **argv)
 
     t_mlx print; 
     int fd; 
-
-    // if(!((confstyle = malloc(sizeof(t_initstyle)))))
-    //    return (-1);
+    
     if (argc != 2)
 	    return (-1);
     fd = open(argv[1], O_RDONLY);
@@ -35,14 +33,8 @@ int     main(int argc, char **argv)
     ft_printf("Path for west wall : %s\n", print.confstyle.t_pathwest);
     print.mapchar = get_map(fd, &print.confstyle); 
     print.pos = getCampos(print.mapchar); 
-    
-    
-    //ft_printf("the posX is : %d\n the posY is : %d\n", print.pos.posX,  print.pos.posY);
-    //ft_printf("the dirX is : %d\n the dirY is : %d\n", print.pos.dirX, print.pos.dirY); 
     print.mlx_ptr = mlx_init();
     print.win = mlx_new_window(print.mlx_ptr, print.confstyle.r_res[0], print.confstyle.r_res[1], "screen test"); 
-    
-    //if(print.raycast.w)
     ft_initrcstruct(&print.raycast,&print.confstyle, print.pos); 
     ft_initsprites(&print); 
     print.img.img_ptr = mlx_new_image(print.mlx_ptr, print.raycast.w, print.raycast.h);
@@ -50,6 +42,7 @@ int     main(int argc, char **argv)
     ft_printf("this is the number of sprite %d\n", print.confstyle.nbsprite);
     ft_opentexture(&print);
     ft_drawwalls(&print);
+    //ft_drawsprite(&print);
     mlx_hook(print.win,2,0 ,keycode,&print); 
     mlx_hook(print.win, 17, 0, ft_close, &print); 
     //mlx_put_image_to_window(print.mlx_ptr, print.win, print.img.img_ptr, 0, 0);
