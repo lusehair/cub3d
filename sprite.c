@@ -63,6 +63,7 @@ void    sortS(t_mlx *data)
       i = 0;
     }  
   i++;
+  ft_printf("this is dist of sprite %d\n", (int)data->raycast.sprites[i].dist);
   }
 }
 
@@ -151,18 +152,20 @@ int     ft_drawsprite(t_mlx *data)
         //2) it's on the screen (left)
         //3) it's on the screen (right)
         //4) ZBuffer, with perpendicular distance
+        ft_printf("this is stripe : %d\n", stripe);
         if(transformY > 0 && stripe > 0 && stripe < data->raycast.w && transformY < data->raycast.ZBuffer[stripe])
         {
           //ft_printf("this is color %d\n", color);
           y = drawStartY;
+          
           while(y < drawEndY) //for every pixel of the current stripe
           {
-            //puts("into the second while");
             d = (y-vMoveScreen) * 256 - data->raycast.h * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
-            texY = ((d * data->textsprite.img_weight) / spriteHeight) / 256;
-            color = data->textsprite.data[data->textsprite.img_width * texY + texX]; //get current color from the texture
+            texY = ((d * data->textsprite.img_weight) / spriteHeight) * (64/2) ;
+            color = data->textsprite.data[data->textsprite.img_width / 4 * texY + texX]; //get current color from the texture
             if((color & 0x00FFFFFF) != 0) 
-              data->img.data[y * stripe] = color; //paint pixel if it isn't black, black is the invisible color
+              data->img.data[y * data->textsprite.t_size + stripe] = color; //paint pixel if it isn't black, black is the invisible color
+            //ft_printf("%d\n", data->img.data[y * data->textsprite.t_size + stripe]);
             y++;
           }
         }
