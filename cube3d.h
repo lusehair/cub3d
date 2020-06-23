@@ -86,6 +86,7 @@ typedef struct s_raycast
   t_sprite *sprites;
   int *spriteOrder;
   int *spriteDistance;  
+  double *ZBuffer; 
 
 }       t_raycast; 
 
@@ -178,6 +179,8 @@ void     ft_opentexture(t_mlx *print);
 int     drawall(int x, int y1, int y2, t_mlx *print); 
 int  insertex(t_mlx *print);
 int     ft_initsprites(t_mlx *data);
+int     ft_drawsprite(t_mlx *data);
+
 
 
 

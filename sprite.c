@@ -63,7 +63,7 @@ void    sortS(t_mlx *data)
       i = 0;
     }  
   i++;
-  ft_printf("this is dist of sprite %d\n", (int)data->raycast.sprites[i].dist);
+  //ft_printf("this is dist of sprite %d\n", (int)data->raycast.sprites[i].dist);
   }
 }
 
@@ -101,9 +101,9 @@ int     ft_drawsprite(t_mlx *data)
       data->raycast.spriteDistance[i] = ((data->raycast.posX - data->raycast.sprites[i].x) * (data->raycast.posX - data->raycast.sprites[i].x) + (data->raycast.posY - data->raycast.sprites[i].y) * (data->raycast.posY - data->raycast.sprites[i].y)); //sqrt not taken, unneeded
       i++; 
     }
-    puts("before sort");
+    //puts("before sort");
     sortS(data);
-    puts("after sort");
+    //puts("after sort");
 
     
     //after sorting the sprites, do the projection and draw them
@@ -123,17 +123,17 @@ int     ft_drawsprite(t_mlx *data)
       vMoveScreen = (int)(vMove / transformY);
 
       //calculate height of the sprite on screen
-      spriteHeight = abs((int)(data->raycast.h / (transformY))) / vDiv; //using "transformY" instead of the real distance prevents fisheye
+      spriteHeight = abs((int)(data->raycast.h / (transformY))); //using "transformY" instead of the real distance prevents fisheye
       //calculate lowest and highest pixel to fill in current stripe
-      drawStartY = -spriteHeight / 2 + data->raycast.h / 2 + vMoveScreen;
+      drawStartY = -spriteHeight / 2 + data->raycast.h / 2;
       if(drawStartY < 0)
         drawStartY = 0;
-      drawEndY = spriteHeight / 2 + data->raycast.h / 2 + vMoveScreen;
+      drawEndY = spriteHeight / 2 + data->raycast.h / 2 ;
       if(drawEndY >= data->raycast.h)
         drawEndY = data->raycast.h - 1;
 
       //calculate width of the sprite
-      spriteWidth = abs( (int)(data->raycast.h / (transformY))) / uDiv;
+      spriteWidth = abs( (int)(data->raycast.h / (transformY)));
       drawStartX = -spriteWidth / 2 + spriteScreenX;
       if(drawStartX < 0)
         drawStartX = 0;
@@ -147,24 +147,25 @@ int     ft_drawsprite(t_mlx *data)
       {
         //puts("into the sprite big while");
         texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * data->textsprite.img_width / spriteWidth) / 256;
+                  y = drawStartY;
+
         //the conditions in the if are:
         //1) it's in front of camera plane so you don't see things behind you
         //2) it's on the screen (left)
         //3) it's on the screen (right)
         //4) ZBuffer, with perpendicular distance
-        ft_printf("this is stripe : %d\n", stripe);
+       // ft_printf("this is stripe : %d\n", stripe);
         if(transformY > 0 && stripe > 0 && stripe < data->raycast.w && transformY < data->raycast.ZBuffer[stripe])
         {
           //ft_printf("this is color %d\n", color);
-          y = drawStartY;
           
           while(y < drawEndY) //for every pixel of the current stripe
           {
-            d = (y-vMoveScreen) * 256 - data->raycast.h * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
-            texY = ((d * data->textsprite.img_weight) / spriteHeight) * (64/2) ;
-            color = data->textsprite.data[data->textsprite.img_width / 4 * texY + texX]; //get current color from the texture
+            d = (y) * 256 - data->raycast.h * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
+            texY = ((d * data->textsprite.img_weight) / spriteHeight) /256 ;
+            color = data->textsprite.data[data->textsprite.img_width  * texY + texX]; //get current color from the texture
             if((color & 0x00FFFFFF) != 0) 
-              data->img.data[y * data->textsprite.t_size + stripe] = color; //paint pixel if it isn't black, black is the invisible color
+              data->img.data[y * data->raycast.w - 1 + stripe] = color; //paint pixel if it isn't black, black is the invisible color
             //ft_printf("%d\n", data->img.data[y * data->textsprite.t_size + stripe]);
             y++;
           }
