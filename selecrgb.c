@@ -8,17 +8,18 @@ int    selecres(struct s_initstyle *confstyle, char *buff)
     while(buff[i])
     {
        
-        while(buff[i] != 'R' && buff[i])
+        ft_printf("[char on]--> %c\n", buff[i]);
+        while(buff[i] != '\0' && buff[i] != 'R')
             i++; 
         if(buff[i] == 'R' && buff[i])
         {
             i++; 
-            while(buff[i] == ' ' )
+            while(buff[i] == ' ' && buff[i])
                 i++; 
             confstyle->r_res[0] = ft_atoi(&buff[i]); 
-            while(ft_isdigit(buff[i]) == 1)
+            while(ft_isdigit(buff[i]) == 1 && buff[i])
                 i++; 
-            while(buff[i] == ' ')
+            while(buff[i] == ' ' && buff[i])
                 i++; 
             confstyle->r_res[1] = ft_atoi(&buff[i]); 
             return (1);

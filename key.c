@@ -2,26 +2,26 @@
 
 
 
-int ft_close(t_mlx *print)
-{
-    int i; 
+// int ft_close(t_mlx *print)
+// {
+//     int i; 
 
-    while(print->mapchar[i])
-    {
-        free(print->mapchar[i]);
-        i++; 
-    }
-    mlx_destroy_window(print->mlx_ptr, print->win); 
-    mlx_destroy_image(print->mlx_ptr, print->img.img_ptr); 
-    free(print->mlx_ptr);
-    free(print->confstyle.t_patheast); 
-    free(print->confstyle.t_pathnord);
-    free(print->confstyle.t_pathsouth); 
-    free(print->confstyle.t_pathwest); 
-    free(print->confstyle.t_pathsprite); 
-    exit(0);  
-    return (0); 
-}
+//     while(print->mapchar[i])
+//     {
+//         free(print->mapchar[i]);
+//         i++; 
+//     }
+//     mlx_destroy_window(print->mlx_ptr, print->win); 
+//     mlx_destroy_image(print->mlx_ptr, print->img.img_ptr); 
+//     free(print->mlx_ptr);
+//     free(print->confstyle.t_patheast); 
+//     free(print->confstyle.t_pathnord);
+//     free(print->confstyle.t_pathsouth); 
+//     free(print->confstyle.t_pathwest); 
+//     free(print->confstyle.t_pathsprite); 
+//     exit(0);  
+//     return (0); 
+// }
 
 int   ft_onward(t_mlx *print)
 {
@@ -80,6 +80,7 @@ int ft_forward(t_mlx *print)
     return (1);
 }
 
+int g_is_up_pressed = 0;
 
 int    keycode(int key, void *bidule)
 {
@@ -87,7 +88,7 @@ int    keycode(int key, void *bidule)
    
     if(key == ESC)
         ft_close(bidule); 
-    if(key == UP)
+    if(key == UP) // g_is_up_pressed = 1;
         ft_onward(bidule); 
     if(key == DOWN)
         ft_forward(bidule); 
@@ -98,4 +99,3 @@ int    keycode(int key, void *bidule)
     //ft_drawwalls(bidule); 
     return(1);
 }
-

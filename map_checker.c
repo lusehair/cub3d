@@ -43,7 +43,7 @@ t_pos    getCampos(char **mapchar)
     while(mapchar[y])
     {
         //ft_printf("%s\n", mapchar[y]); 
-        while(mapchar[y][x])
+        while(mapchar[y][x] && mapchar[y][x] != '0')
         {
             //ft_printf("%c\n", mapchar[y][x]);
             if(mapchar[y][x] == 'N' || mapchar[y][x] == 'W' || mapchar[y][x] == 'E' 
@@ -148,11 +148,11 @@ char     **get_map(int fd, t_initstyle *confstyle)
         }
     }
     ft_printf("this is sprite %d\n", confstyle->nbsprite);
-     if (ft_checkone(mapchar[i-1], -1) == -1)
-        {
-        ft_printf("Not Valid Map\n");
-            exit(0);
-        } 
+    //  if (ft_checkone(mapchar[i-1], -1) == -1)
+    //     {
+    //     ft_printf("Not Valid Map\n");
+    //         exit(0);
+    //     } 
     return (mapchar); 
 }
 

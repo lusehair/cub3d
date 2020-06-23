@@ -72,10 +72,12 @@ int    initstyle(int fd, t_initstyle *confstyle)
     conf_reseter(confstyle);
     while (checkfullopt(checkfull) == 1)
     {
-      get_next_line(fd, &buff);
-      ft_printf("c'est le buff %s\n", buff);
-      optselector(confstyle,buff,checkfull);
-      free(buff);
+        get_next_line(fd, &buff);
+    //   {
+        //ft_printf("c'est le buff %s\n", buff);
+        optselector(confstyle,buff,checkfull);
+        free(buff);
+      //}
     }
     ft_RBGtoINT(confstyle); 
     return (0);

@@ -86,8 +86,34 @@ typedef struct s_raycast
   t_sprite *sprites;
   int *spriteOrder;
   int *spriteDistance;  
+  double *ZBuffer;
 
 }       t_raycast; 
+
+typedef struct s_raysprite
+{
+    double spriteX;
+    double spriteY; 
+    double invDet;
+    double transformX; 
+    double transformY;
+    int spriteScreenX;
+    int vMoveScreen;
+    int spriteHeight;
+    int drawStartY;
+    int drawEndY;
+    int spriteWidth;
+    int drawStartX;
+    int drawEndX;
+    int stripe;
+    int texX;
+    int y; 
+    int d;
+    int texY; 
+    long int color; 
+}   t_raysprite; 
+
+
 
 
 
@@ -135,7 +161,9 @@ typedef struct	s_mlx
     t_texture   textsouth; 
     t_texture   textnorth; 
     t_texture   textsprite; 
+    t_raysprite raysprite;
 }				t_mlx;
+
 
 
 
@@ -178,7 +206,7 @@ void     ft_opentexture(t_mlx *print);
 int     drawall(int x, int y1, int y2, t_mlx *print); 
 int  insertex(t_mlx *print);
 int     ft_initsprites(t_mlx *data);
-
+int     ft_drawsprite(t_mlx *data);
 
 
 
