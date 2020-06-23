@@ -83,7 +83,7 @@ t_pos    getCampos(char **mapchar)
 
 }
 
-int     ft_checkone(char *line, int i)
+int     ft_checkone(char *line,  int i)
 {
     int a; 
 

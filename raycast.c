@@ -119,7 +119,7 @@ int     ft_drawwalls(t_mlx *print)
       print->raycast.ZBuffer[print->raycast.x] = print->raycast.perpWallDist; 
     }
     ft_drawsprite(print);
-    puts("before the damage");
+    //puts("before the damage");
     mlx_put_image_to_window(print->mlx_ptr, print->win, print->img.img_ptr, 0, 0);
    return (0);
 }
