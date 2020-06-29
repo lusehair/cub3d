@@ -10,15 +10,21 @@ int   ft_initrcstruct(t_raycast *raycast,  t_initstyle *style, t_pos pos)
     raycast->h = style->r_res[1]; 
     raycast->hit = 0; 
     raycast->planeX = 0; 
-    raycast->planeY = 0.77;
+    raycast->planeY = 0.66;
+        //ft_printf("This or is posX %d\n",pos.posX);
+
     return (0);
 }
 
 
-
-void  ft_setview(t_mlx *print)
+int     ft_drawwalls(t_mlx *print)
 {
-      print->raycast.cameraX = 2 * print->raycast.x / (double)print->raycast.w - 1;
+
+    ft_printf("here X %d\n, here y %d\n", print->pos.posX, print->pos.posY);
+    print->raycast.x = 0; 
+    while(print->raycast.x < print->raycast.w)
+    {
+       print->raycast.cameraX = 2 * print->raycast.x / (double)print->raycast.w - 1;
       print->raycast.rayDirX = print->raycast.dirX + print->raycast.planeX * print->raycast.cameraX;
       print->raycast.rayDirY = print->raycast.dirY + print->raycast.planeY * print->raycast.cameraX;
       print->raycast.mapX = (int)print->raycast.posX;
@@ -26,10 +32,7 @@ void  ft_setview(t_mlx *print)
       print->raycast.deltaDistX = (print->raycast.rayDirY == 0) ? 0 : ((print->raycast.rayDirX == 0) ? 1 : fabs(1 / print->raycast.rayDirX));
       print->raycast.deltaDistY = (print->raycast.rayDirX == 0) ? 0 : ((print->raycast.rayDirY == 0) ? 1 : fabs(1 / print->raycast.rayDirY));
       print->raycast.hit = 0; 
-}
 
-void  ft_setside(t_mlx *print)
-{
       if (print->raycast.rayDirX < 0)
       {
         print->raycast.stepX = -1;
@@ -50,12 +53,10 @@ void  ft_setside(t_mlx *print)
         print->raycast.stepY = 1;
         print->raycast.sideDistY = (print->raycast.mapY + 1.0 - print->raycast.posY) * print->raycast.deltaDistY;
       }
-}
 
-void  ft_hitwall(t_mlx *print)
-{
-     while (print->raycast.hit == 0)
+       while (print->raycast.hit == 0)
       {
+         //ft_printf("this is mapY %d and mapX %d\n", print->raycast.mapY, print->raycast.mapX); 
         if (print->raycast.sideDistX < print->raycast.sideDistY)
         {
           print->raycast.sideDistX += print->raycast.deltaDistX;
@@ -68,15 +69,11 @@ void  ft_hitwall(t_mlx *print)
           print->raycast.mapY += print->raycast.stepY;
           print->raycast.side = 1;
         }
-        ft_printf("this is mapY %d and posX %d\n", print->raycast.mapY, print->raycast.posX); 
         if (print->mapchar[print->raycast.mapY][print->raycast.mapX] == '1')
           print->raycast.hit = 1;
       }
-}
 
-void  ft_filldraw(t_mlx *print)
-{
-  if (print->raycast.side == 0)
+      if (print->raycast.side == 0)
         print->raycast.perpWallDist = (print->raycast.mapX - print->raycast.posX + (1 - print->raycast.stepX) / 2) / print->raycast.rayDirX;
       else
         print->raycast.perpWallDist = (print->raycast.mapY - print->raycast.posY + (1 - print->raycast.stepY) / 2) / print->raycast.rayDirY; 
@@ -97,26 +94,14 @@ void  ft_filldraw(t_mlx *print)
 	    else
 	    	print->raycast.wall_x = print->raycast.posY + ((print->raycast.mapX - print->raycast.posX + (1 - print->raycast.stepX)
 					/ 2) / print->raycast.rayDirX) * print->raycast.rayDirY;
-}
-
-int     ft_drawwalls(t_mlx *print)
-{
-
-  print->raycast.x = 0; 
-
-    while(print->raycast.x < print->raycast.w)
-    {
-      ft_setview(print);
-      //puts("first step");
-      ft_setside(print);
-      //puts("second step");
-      ft_hitwall(print);
-      ft_filldraw(print);
+     
+     
+     
       drawline(print->raycast.x,print->confstyle.r_res[1]/4,print->confstyle.r_res[1], print, print->confstyle.colorFloor); 
       drawline(print->raycast.x, 0,print->raycast.drawStart, print, print->confstyle.colorSky); 
       drawall(print->raycast.x, print->raycast.drawStart, print->raycast.drawEnd, print);
-      print->raycast.x++;
       print->raycast.ZBuffer[print->raycast.x] = print->raycast.perpWallDist; 
+      print->raycast.x++;
     }
     ft_drawsprite(print);
     //puts("before the damage");

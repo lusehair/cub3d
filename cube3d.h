@@ -86,11 +86,7 @@ typedef struct s_raycast
   t_sprite *sprites;
   int *spriteOrder;
   int *spriteDistance;  
-<<<<<<< HEAD
   double *ZBuffer;
-=======
-  double *ZBuffer; 
->>>>>>> 836d9c92e7861d6acff918079fcf1a0c2484e0aa
 
 }       t_raycast; 
 
@@ -136,10 +132,10 @@ typedef struct  s_texture
 
 typedef struct s_pos
 {
-    float posX; 
-    float posY; 
-    float dirX; 
-    float dirY; 
+    int posX; 
+    int posY; 
+    int dirX; 
+    int dirY; 
 }              t_pos; 
 
 typedef struct	s_img
@@ -198,7 +194,7 @@ int SizeLineMap(struct s_buildmap *mapbuilder);
 int printmap(t_buildmap *mapbuilder);
 char     **get_map(int fd, t_initstyle *confstyle); 
 int   mini_drawmap(char **mapchar, void *mlx_ptr, void *win_ptr);
-t_pos    getCampos(char **mapchar);
+t_pos    getCampos(char **mapchar, t_initstyle confstyle);
 int     drawline(int x1, int y1, int y2, t_mlx *print, int color);
 int     ft_drawwalls(t_mlx *print);
 int    ft_initrcstruct(t_raycast *raycast,  t_initstyle *style, t_pos pos);
@@ -211,11 +207,6 @@ int     drawall(int x, int y1, int y2, t_mlx *print);
 int  insertex(t_mlx *print);
 int     ft_initsprites(t_mlx *data);
 int     ft_drawsprite(t_mlx *data);
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 836d9c92e7861d6acff918079fcf1a0c2484e0aa
 
 
 

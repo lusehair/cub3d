@@ -28,11 +28,12 @@ char *line_checker(char *line, t_initstyle *confstyle, int nb)
         i++;
     }
     temp[i] = '\0';
+
     return (temp); 
 }
 
 
-t_pos    getCampos(char **mapchar)
+t_pos    getCampos(char **mapchar, t_initstyle confstyle)
 {
     int x; 
     int y; 
@@ -40,17 +41,19 @@ t_pos    getCampos(char **mapchar)
 
     x = 0;
     y = 0;
-    while(mapchar[y])
+    while(y < confstyle.longmap) 
     {
         //ft_printf("%s\n", mapchar[y]); 
-        while(mapchar[y][x] && mapchar[y][x] != '0')
+        while(mapchar[y][x])
         {
             //ft_printf("%c\n", mapchar[y][x]);
             if(mapchar[y][x] == 'N' || mapchar[y][x] == 'W' || mapchar[y][x] == 'E' 
             || mapchar[y][x] == 'S')
             {
+
                 pos.posX = x;
                 pos.posY = y; 
+
                 if(mapchar[y][x] == 'N')
                 {
                     pos.dirX = 1;
@@ -122,6 +125,34 @@ int     ft_countsprite(char *line)
     return (sprite);
 }
 
+
+int     checkwhitespaces(char *currentline, char *neigbourhline, int nbline)
+{
+    int i; 
+
+    i = 0; 
+    while(currentline[i])
+    {
+        if(currentline[i] == ' ' && nbline == 0 && neigbourhline[i] == '1')
+            i++;
+        else if(currentline[i] == ' ' && nbline == 0 && neigbourhline[i] != '1')
+        {
+            ft_printf("Bad Map wall1\n");
+            return (-1);
+        }
+        if(currentline[i] == ' ' && nbline > 0 && neigbourhline[i] == '1')
+            i++;
+        else if(currentline[i] == ' ' && nbline > 0 && neigbourhline[i] != '1')
+        {
+            ft_printf("Bad Map wall2\n");
+            return (-1);
+        }
+        i++;
+    }
+    return (0);
+
+}
+
 char     **get_map(int fd, t_initstyle *confstyle)
 {
     char **mapchar;
@@ -135,24 +166,35 @@ char     **get_map(int fd, t_initstyle *confstyle)
         {
             if(i == 0)
                 mapchar = malloc(sizeof(char*) * (ft_strlen(line) + 1)); 
-            if(!(mapchar[i] = line_checker(line, confstyle, i))) ft_printf("ERRORMAP\n") ;
+            
+            if(!(mapchar[i] = line_checker(line, confstyle, i)))
+            {
+                ft_printf("Not a valid Map");
+                return (NULL);
+            }
+            ft_printf("this is the line %s\n", mapchar[i]);
             if (ft_checkone(mapchar[i], i) == -1)
             {
                 ft_printf("Not a Valid Map\n");
-                
-                exit(0);
+                return (NULL);
             } 
             confstyle->nbsprite += ft_countsprite(line);
             free(line);
             i++; 
         }
+        // if (checkwhitespaces(mapchar[1], mapchar[2], 1) == -1)
+        // {
+        //     ft_printf("Not a valid Map");
+        //     return (NULL);
+        // }
+        // if (checkwhitespaces(mapchar[i], mapchar[i-1], i) == -1)
+        // {
+        //     ft_printf("Not a valid Map");
+        //     return (NULL);
+        // }
+        confstyle->longmap = i;
     }
-    ft_printf("this is sprite %d\n", confstyle->nbsprite);
-    //  if (ft_checkone(mapchar[i-1], -1) == -1)
-    //     {
-    //     ft_printf("Not Valid Map\n");
-    //         exit(0);
-    //     } 
+
     return (mapchar); 
 }
 

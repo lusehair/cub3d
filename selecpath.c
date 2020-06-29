@@ -29,9 +29,8 @@ int    selecpathso(struct s_initstyle *confstyle, char *buff)
     int i; 
 
     i = 0; 
-    while(buff[i])
-    {
-        while(buff[i] != 'S' && buff[i+1] != 'O' && buff[i])
+   
+        while(buff[i] != 'S' && buff[i] != '\0')
             i++; 
         if(buff[i] == 'S' && buff[i+1] == 'O')
         {
@@ -41,8 +40,7 @@ int    selecpathso(struct s_initstyle *confstyle, char *buff)
             confstyle->t_pathsouth = ft_strdup(&buff[i]);
             return (1); 
         }
-    i++;
-    }
+    
 
 	return (0);
 }
@@ -51,9 +49,8 @@ int    selecpathea(struct s_initstyle *confstyle, char *buff)
     int i; 
 
     i = 0; 
-    while(buff[i])
-    {
-        while(buff[i] != 'E' && buff[i+1] != 'A' && buff[i])
+   
+        while(buff[i] != 'E' && buff[i] != '\0')
             i++; 
         if(buff[i] == 'E' && buff[i+1] == 'A')
         {
@@ -63,8 +60,7 @@ int    selecpathea(struct s_initstyle *confstyle, char *buff)
             confstyle->t_patheast = ft_strdup(&buff[i]);
             return (1); 
         }
-        i++;
-    }
+       
 	return (0);
 }
 
