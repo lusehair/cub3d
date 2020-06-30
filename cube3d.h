@@ -28,19 +28,19 @@ typedef struct		s_initstyle
 }					t_initstyle;
 
 
-#define RGB_WHITE 16777215; 
-#define RGB_BLACK 0;
-#define RGB_RED 16711680; 
-#define RGB_BLUE 255; 
-#define RGB_GREEN 65280; 
-#define RGB_YELLOW 16776960; 
+
 #define UP 126
 #define RIGHT 123
 #define LEFT 124
 #define DOWN 125
-#define SPEED 0.10
+#define SPEED 0.3
 #define TURN 0.05
 #define ESC 53
+#define BADMAP 16
+#define BADTEXT 32
+#define BADMALLOC 64
+
+
 
 typedef struct s_sprite
 {

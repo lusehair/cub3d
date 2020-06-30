@@ -35,11 +35,7 @@ int     main(int argc, char **argv)
     // ft_printf("Path for south wall : %s\n", print.confstyle.t_pathsouth);
     // ft_printf("Path for east wall : %s\n", print.confstyle.t_patheast);
     // ft_printf("Path for west wall : %s\n", print.confstyle.t_pathwest);
-    if ((print.mapchar = get_map(fd, &print.confstyle) == NULL))
-    {
-        ft_printf("ca vient de la \n");
-        exit(0);
-    } 
+    print.mapchar = get_map(fd, &print.confstyle);
     print.pos = getCampos(print.mapchar, print.confstyle); 
     print.mlx_ptr = mlx_init();
     print.win = mlx_new_window(print.mlx_ptr, print.confstyle.r_res[0], print.confstyle.r_res[1], "screen test"); 

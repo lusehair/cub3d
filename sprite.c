@@ -20,11 +20,12 @@ int     ft_initsprites(t_mlx *data)
         return (-1);
      if(!(data->raycast.spriteDistance = (int*)malloc(data->confstyle.nbsprite *sizeof(int))))
         return (-1);
-    ft_printf("This is w : %d\n", data->raycast.w);
+    //ft_printf("This is w : %d\n", data->raycast.w);
     if(!(data->raycast.ZBuffer = (double*)malloc(data->raycast.w * sizeof(double))))
         return (-1);
-    while (y > data->confstyle.longmap)
+    while (y < data->confstyle.longmap)
     {
+        ft_printf("|%s|\n", data->mapchar[y]);
         while (data->mapchar[y][x])
         {
             if (data->mapchar[y][x] == '2')
@@ -111,10 +112,10 @@ int     ft_drawsprite(t_mlx *data)
       {
         data->raysprite.texX = (int)(256 * (data->raysprite.stripe - (-data->raysprite.spriteWidth / 2 + data->raysprite.spriteScreenX)) * data->textsprite.img_width / data->raysprite.spriteWidth) / 256;
                   data->raysprite.y = data->raysprite.drawStartY;
-        printf("transy : %f and stripeZ %f \n", data->raysprite.transformY, data->raycast.ZBuffer[data->raysprite.stripe]);
+        //printf("transy : %f and stripeZ %f \n", data->raysprite.transformY, data->raycast.ZBuffer[data->raysprite.stripe]);
         if(data->raysprite.transformY > 0 && data->raysprite.stripe > 0 && data->raysprite.stripe < data->raycast.w && data->raysprite.transformY < data->raycast.ZBuffer[data->raysprite.stripe])
         {
-                                    puts("here pix");
+                                    //puts("here pix");
 
           while(data->raysprite.y < data->raysprite.drawEndY) 
           {
