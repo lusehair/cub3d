@@ -63,6 +63,7 @@ int    initstyle(int fd, t_initstyle *confstyle)
     int checkfull[8]; 
 	int i; 
 
+    confstyle->posmap++;
     i = 0; 
 	while(i < 8)
 	{	
@@ -75,7 +76,9 @@ int    initstyle(int fd, t_initstyle *confstyle)
         get_next_line(fd, &buff);
         optselector(confstyle,buff,checkfull);
         free(buff);
+        confstyle->posmap++;
     }
+    confstyle->posmap--;
     ft_RBGtoINT(confstyle); 
     return (0);
 }

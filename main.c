@@ -28,6 +28,7 @@ int     main(int argc, char **argv)
 	    return (-1);
      fd = open(argv[1], O_RDONLY);
     initstyle(fd, &print.confstyle);
+    print.confstyle.largmap = ft_mapsizer(fd, argv, &print);
     //ft_printf("RES : %d for X and %d for Y\n", print.confstyle.r_res[0], print.confstyle.r_res[1]);
     //ft_printf("COLOR FLOOR : R = %d, G = %d, B = %d\n", print.confstyle.c_floor[0], print.confstyle.c_floor[1], print.confstyle.c_floor[2]);
     //ft_printf("COLOR SKY : R = %d, G = %d, B = %d\n", print.confstyle.c_sky[0], print.confstyle.c_sky[1], print.confstyle.c_sky[2]);

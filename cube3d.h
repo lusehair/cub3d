@@ -5,6 +5,10 @@
 #include "libft/ft_printf/ft_printf.h"
 #include <math.h> 
 #include "mlx.h"
+#include <stdio.h> 
+#include "cube3d.h"
+#include <unistd.h> 
+#include <fcntl.h>
 
 
 
@@ -25,6 +29,7 @@ typedef struct		s_initstyle
     unsigned int colorSky; 
     unsigned int colorFloor;   
     int nbsprite; 
+    int posmap;
 }					t_initstyle;
 
 
@@ -207,6 +212,8 @@ int     drawall(int x, int y1, int y2, t_mlx *print);
 int  insertex(t_mlx *print);
 int     ft_initsprites(t_mlx *data);
 int     ft_drawsprite(t_mlx *data);
+int     ft_mapsizer(int fd, char **argv, t_mlx *data);
+
 
 
 
