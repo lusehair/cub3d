@@ -3,14 +3,15 @@
 #include "cube3d.h"
 #include <stdio.h>
 
-void       conf_reseter(struct s_initstyle *confstyle)
+void       conf_reseter(t_mlx *data)
 {
-    confstyle->t_pathnord = NULL; 
-    confstyle->t_pathsouth = NULL; 
-    confstyle->t_patheast = NULL; 
-    confstyle->t_pathwest = NULL;
-    confstyle->t_pathsprite = NULL;  
-    confstyle->nbsprite = 0;
+    data->confstyle.t_pathnord = NULL; 
+    data->confstyle.t_pathsouth = NULL; 
+    data->confstyle.t_patheast = NULL; 
+    data->confstyle.t_pathwest = NULL;
+    data->confstyle.t_pathsprite = NULL;  
+    data->confstyle.nbsprite = 0;
+    data->pos.dirX = 0;
 }
 
 int     checkfullopt(int *checkfull)
@@ -29,6 +30,7 @@ int     checkfullopt(int *checkfull)
 
 int    optselector(t_initstyle *confstyle, char *buff, int *checkfull)
 {
+    
     if (checkfull[0] == 0)
         if((checkfull[0] = selecres(confstyle,buff)) == 1)
             return (0); 
@@ -52,34 +54,55 @@ int    optselector(t_initstyle *confstyle, char *buff, int *checkfull)
             return (0);   
     if(checkfull[7] == 0)
         if((checkfull[7] =  selecpathsp(confstyle,buff)) == 1)
-            return (0); 
+            return (0);
+
     return (1);
 }
 
+int     ft_checkbadconf(char *buff)
+{
+    int i; 
 
-int    initstyle(int fd, t_initstyle *confstyle)
+    i = 0;    
+    ft_printf("NO WAY |%s|\n", buff);
+    while(buff[i] !='\0')
+    {
+        //ft_printf("|%c|", buff[i]);
+        while(buff[i] == ' ' && buff[i] != '\0')
+            i++; 
+        if(buff[i] == '1' || buff[i] == '0' )
+            return (1);
+    i++;
+    }
+    ft_putchar('\n');
+    return (0);
+}
+
+int    initstyle(int fd, t_mlx *data)
 {   
     char *buff;
     int checkfull[8]; 
 	int i; 
 
-    confstyle->posmap++;
+    data->confstyle.posmap++;
     i = 0; 
 	while(i < 8)
 	{	
         checkfull[i] = 0;
         i++; 
     }
-    conf_reseter(confstyle);
+    conf_reseter(data);
     while (checkfullopt(checkfull) == 1)
     {
         get_next_line(fd, &buff);
-        optselector(confstyle,buff,checkfull);
+        // if(ft_checkbadconf(buff) == 1 && buff != NULL)
+        //     ft_close(data, BADARGUM);
+        optselector(&data->confstyle,buff,checkfull);
         free(buff);
-        confstyle->posmap++;
+        data->confstyle.posmap++;
     }
-    confstyle->posmap--;
-    ft_RBGtoINT(confstyle); 
+    data->confstyle.posmap--;
+    ft_RBGtoINT(&data->confstyle); 
     return (0);
 }
 

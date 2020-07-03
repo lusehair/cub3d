@@ -87,7 +87,7 @@ int    keycode(int key, void *bidule)
     int put;
    
     if(key == ESC)
-        ft_close(bidule); 
+        ft_close(bidule, ALL); 
     if(key == UP) // g_is_up_pressed = 1;
         ft_onward(bidule); 
     if(key == DOWN)

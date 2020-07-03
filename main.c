@@ -27,7 +27,7 @@ int     main(int argc, char **argv)
     if (argc != 2)
 	    return (-1);
      fd = open(argv[1], O_RDONLY);
-    initstyle(fd, &print.confstyle);
+    initstyle(fd, &print);
     print.confstyle.largmap = ft_mapsizer(fd, argv, &print);
     //ft_printf("RES : %d for X and %d for Y\n", print.confstyle.r_res[0], print.confstyle.r_res[1]);
     //ft_printf("COLOR FLOOR : R = %d, G = %d, B = %d\n", print.confstyle.c_floor[0], print.confstyle.c_floor[1], print.confstyle.c_floor[2]);
@@ -38,6 +38,8 @@ int     main(int argc, char **argv)
     // ft_printf("Path for west wall : %s\n", print.confstyle.t_pathwest);
     print.mapchar = get_map(fd, &print.confstyle);
     print.pos = getCampos(print.mapchar, print.confstyle); 
+    if(print.pos.posX == 0)
+        ft_close(&print, BADARGUM);
     print.mlx_ptr = mlx_init();
     print.win = mlx_new_window(print.mlx_ptr, print.confstyle.r_res[0], print.confstyle.r_res[1], "screen test"); 
     ft_initrcstruct(&print.raycast,&print.confstyle, print.pos); 
@@ -49,14 +51,10 @@ int     main(int argc, char **argv)
     ft_drawwalls(&print);
     //ft_drawsprite(&print);
     mlx_hook(print.win,2,0 ,keycode,&print); 
-    mlx_hook(print.win, 17, 0, ft_close, &print); 
+    //mlx_hook(print.win, 17, 0, ft_close, &print); 
     //mlx_put_image_to_window(print.mlx_ptr, print.win, print.img.img_ptr, 0, 0);
     //mlx_loop_hook(print.mlx_ptr, myloop, &print);
     mlx_loop(print.mlx_ptr); 
-    
     return (0);
-
-
-    
 }
 

@@ -2,38 +2,91 @@
 
 
 
-
-
-int ft_close(t_mlx *print)
+void ft_close_path(t_mlx *data)
 {
-    int i; 
+    if(data->confstyle.t_patheast != NULL)
+        free(data->confstyle.t_patheast);
+    if(data->confstyle.t_pathwest != NULL)
+        free(data->confstyle.t_pathwest);
+    if(data->confstyle.t_pathnord != NULL)
+        free(data->confstyle.t_pathnord);
+    if(data->confstyle.t_pathsouth != NULL)
+        free(data->confstyle.t_pathsouth);
+    if(data->confstyle.t_pathsprite != NULL)
+        free(data->confstyle.t_pathsprite);
+}
+// POSSIBLE LEAKS (FREE PAS PROPRE)
+void    ft_close_inside_map(char **mapinside, t_initstyle *style)
+{
+     int y; 
 
-    while(print->mapchar[i])
+    y = 0;
+    if(mapinside[y] != NULL)
+        free(mapinside);
+    if(style->t_patheast != NULL)
+        free(style->t_patheast);
+    if(style->t_pathwest != NULL)
+        free(style->t_pathwest);
+    if(style->t_pathnord != NULL)
+        free(style->t_pathnord);
+    if(style->t_pathsouth != NULL)
+        free(style->t_pathsouth);
+    if(style->t_pathsprite != NULL)
+        free(style->t_pathsprite);
+    ft_printf("BAD MAPPING\n");
+    exit(-1);
+
+}
+
+void    ft_close_map(t_mlx *data)
+{
+    int y; 
+
+    y = 0;
+    while(ft_strlen(data->mapchar[y]) != 0)
     {
-        free(print->mapchar[i]);
-        i++; 
+        free(data->mapchar[y]);
+        y++;
     }
-    mlx_destroy_window(print->mlx_ptr, print->win); 
-    //free(print->mlx_ptr);
-    free(print->confstyle.t_patheast); 
-    free(print->confstyle.t_pathnord);
-    free(print->confstyle.t_pathsouth); 
-    free(print->confstyle.t_pathwest); 
-    free(print->confstyle.t_pathsprite);
-    // free(print->img.data);
-    // free(print->img.img_ptr); 
-    // free(print->textsprite.data); 
-    // free(print->texteast.data);
-    // free(print->textnorth.data);
-    // free(print->textsouth.data);
-    // free(print->textsprite.data);
-    // free(print->textwest.data);
-    // free(print->raycast.spriteDistance);
-    // free(print->raycast.spriteOrder);
-    // free(print->raycast.ZBuffer);
-    // exit(0);  
+}
+
+void    ft_close_other(t_mlx *data)
+{
+    if(data->confstyle.nbsprite > 0)
+        free(data->raycast.ZBuffer);
+    
+}
+
+int ft_close(t_mlx *data, int bad)
+{
+ 
+    if(bad == BADMAP)
+    {
+        ft_close_path(data); 
+        ft_close_map(data);
+        mlx_destroy_window(data->mlx_ptr, data->win); 
+
+    }
+    if(bad == BADPATH)
+    {
+        ft_close_path(data);
+        ft_close_map(data);
+        mlx_destroy_window(data->mlx_ptr, data->win); 
+        ft_printf("ERROR OPENNING TEXTURE\n");
+        exit(-1);
+
+    }
+    if(bad == BADARGUM)
+    {
+        ft_close_path(data);
+        ft_printf("BAD ARGUMENTS\n");
+        exit(-1);
+  
+    }
     return (0); 
 }
+
+
 
 // 111111111110111111
 // 100011000001001111

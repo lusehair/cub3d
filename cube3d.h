@@ -42,8 +42,12 @@ typedef struct		s_initstyle
 #define TURN 0.05
 #define ESC 53
 #define BADMAP 16
-#define BADTEXT 32
+#define BADPATH 32
 #define BADMALLOC 64
+#define BADARGUM 128 
+#define BADPOS 256
+#define ALL 512
+
 
 
 
@@ -183,7 +187,7 @@ typedef struct s_buildmap
     struct s_buildmap *precline; 
 } t_buildmap; 
 
-void       conf_reseter(t_initstyle *confstyle); 
+void   conf_reseter(t_mlx *data); 
 int    selecres(struct s_initstyle *confstyle, char *buff); 
 int    selecpathno(struct s_initstyle *confstyle, char *buff); 
 int    selecpathso(struct s_initstyle *confstyle, char *buff); 
@@ -205,7 +209,7 @@ int     ft_drawwalls(t_mlx *print);
 int    ft_initrcstruct(t_raycast *raycast,  t_initstyle *style, t_pos pos);
 void     ft_RBGtoINT(t_initstyle *confstyle);
 int    keycode(int key, void *bidule); 
-int ft_close(t_mlx *print);
+int ft_close(t_mlx *data, int bad);
 int     ft_checkone(char *line, int i); 
 void     ft_opentexture(t_mlx *print);
 int     drawall(int x, int y1, int y2, t_mlx *print); 
@@ -213,11 +217,12 @@ int  insertex(t_mlx *print);
 int     ft_initsprites(t_mlx *data);
 int     ft_drawsprite(t_mlx *data);
 int     ft_mapsizer(int fd, char **argv, t_mlx *data);
+void    ft_close_inside_map(char **mapinside, t_initstyle *style);
 
 
 
 
 
-int     initstyle(int fd, t_initstyle *confstyle); 
+int     initstyle(int fd, t_mlx *data); 
 struct	s_buildmap      *initmap(int fd);
 #endif
