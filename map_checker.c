@@ -38,6 +38,7 @@ t_pos    getCampos(char **mapchar, t_initstyle confstyle)
             if(mapchar[y][x] == 'N' || mapchar[y][x] == 'W' || mapchar[y][x] == 'E' 
             || mapchar[y][x] == 'S')
             {
+                pos.dir = mapchar[y][x];
                 puts("no no");
                 pos.posX = x;
                 pos.posY = y; 

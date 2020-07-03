@@ -145,6 +145,7 @@ typedef struct s_pos
     int posY; 
     int dirX; 
     int dirY; 
+    char dir;
 }              t_pos; 
 
 typedef struct	s_img

@@ -2,19 +2,48 @@
 
 int   ft_initrcstruct(t_raycast *raycast,  t_initstyle *style, t_pos pos)
 {
-    raycast->posX = pos.posX; 
-    raycast->posY = pos.posY; 
+    raycast->posX = pos.posX + 0.5; 
+    raycast->posY = pos.posY + 0.5; 
     raycast->dirX = pos.dirX; 
     raycast->dirY = pos.dirY; 
     raycast->w = style->r_res[0]; 
     raycast->h = style->r_res[1]; 
     raycast->hit = 0; 
-    raycast->planeX = 0; 
-    raycast->planeY = 0.66;
+    
+    if(pos.dir == 'N')
+    {
+            
+             //puts("ICI ICI");
+
+      raycast->planeX = -M_PI_2; 
+      raycast->planeY = 0;
+    }
+    else if(pos.dir == 'S')
+    {
+      //puts("ICI ICI");
+      raycast->planeX = M_PI_2;
+      raycast->planeY = 0;
+    }
+    else if(pos.dir == 'E')
+    {
+            //puts("ICI ICI");
+
+      raycast->planeX = 0;
+      raycast->planeY = M_PI_2;
+    }
+    else if(pos.dir == 'W')
+    {
+            //puts("ICI ICI");
+
+      raycast->planeX = 0;
+      raycast->planeY = -M_PI_2;
+    }
         //ft_printf("This or is posX %d\n",pos.posX);
 
     return (0);
 }
+
+
 
 void    sidechecker(t_mlx *print)
 {
@@ -101,15 +130,18 @@ int     ft_drawwalls(t_mlx *print)
       print->raycast.rayDirY = print->raycast.dirY + print->raycast.planeY * print->raycast.cameraX;
       print->raycast.mapX = (int)print->raycast.posX;
       print->raycast.mapY = (int)print->raycast.posY;
-      print->raycast.deltaDistX = (print->raycast.rayDirY == 0) ? 0 : ((print->raycast.rayDirX == 0) ? 1 : fabs(1 / print->raycast.rayDirX));
-      print->raycast.deltaDistY = (print->raycast.rayDirX == 0) ? 0 : ((print->raycast.rayDirY == 0) ? 1 : fabs(1 / print->raycast.rayDirY));
+      print->raycast.deltaDistX = fabs(1 / print->raycast.rayDirX);
+	print->raycast.deltaDistY = fabs(1 / print->raycast.rayDirY);
       print->raycast.hit = 0; 
       sidechecker(print);
       hit_collison(print);
       cut_the_wall(print);
-      drawline(print->raycast.x,print->confstyle.r_res[1]/4,print->confstyle.r_res[1], print, print->confstyle.colorFloor); 
+      drawline(print->raycast.x,print->confstyle.r_res[1]/2,print->confstyle.r_res[1], print, print->confstyle.colorFloor); 
       drawline(print->raycast.x, 0,print->raycast.drawStart, print, print->confstyle.colorSky); 
       drawall(print->raycast.x, print->raycast.drawStart, print->raycast.drawEnd, print);
+     
+     
+     
       print->raycast.ZBuffer[print->raycast.x] = print->raycast.perpWallDist; 
       print->raycast.x++;
     }

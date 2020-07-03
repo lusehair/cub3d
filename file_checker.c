@@ -67,11 +67,17 @@ int     ft_checkbadconf(char *buff)
     ft_printf("NO WAY |%s|\n", buff);
     while(buff[i] !='\0')
     {
-        //ft_printf("|%c|", buff[i]);
+        ft_printf("|%c|", buff[i]);
         while(buff[i] == ' ' && buff[i] != '\0')
             i++; 
-        if(buff[i] == '1' || buff[i] == '0' )
+        if(buff[i] == '1' || buff[i] == '0')
+        {
+            puts("no here !");
             return (1);
+        }
+        else
+            return (0);
+        
     i++;
     }
     ft_putchar('\n');
@@ -95,9 +101,9 @@ int    initstyle(int fd, t_mlx *data)
     while (checkfullopt(checkfull) == 1)
     {
         get_next_line(fd, &buff);
-        // if(ft_checkbadconf(buff) == 1 && buff != NULL)
-        //     ft_close(data, BADARGUM);
         optselector(&data->confstyle,buff,checkfull);
+        if(ft_checkbadconf(buff) == 1)
+            ft_close(data, BADARGUM);
         free(buff);
         data->confstyle.posmap++;
     }

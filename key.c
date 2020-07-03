@@ -71,9 +71,9 @@ int ft_onleft(t_mlx *print)
 
 int ft_forward(t_mlx *print)
 {
-    if(print->mapchar[(int)(print->raycast.posY + print->raycast.dirY * 0.10)][(int)print->raycast.posX] != '1')
+    if(print->mapchar[(int)(print->raycast.posY + print->raycast.dirY * 0.20)][(int)print->raycast.posX] != '1')
         print->raycast.posY -= print->raycast.dirY * 0.20; 
-    if(print->mapchar[(int)print->raycast.posY][(int)(print->raycast.posX + print->raycast.dirX * 0.10)] != '1')
+    if(print->mapchar[(int)print->raycast.posY][(int)(print->raycast.posX + print->raycast.dirX * 0.20)] != '1')
         print->raycast.posX -= print->raycast.dirX * 0.20; 
     ft_bzero(print->img.data, print->raycast.w * print->raycast.h * 4);
     ft_drawwalls(print);  
