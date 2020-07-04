@@ -44,13 +44,13 @@ t_pos    getCampos(char **mapchar, t_initstyle confstyle)
                 pos.posY = y; 
                 if(mapchar[y][x] == 'N')
                 {
-                    pos.dirX = 1;
+                    pos.dirX = 0;
                     pos.dirY = -1;
                 }
                 if(mapchar[y][x] == 'S')
                 {
-                    pos.dirX = 1;
-                    pos.dirY = 0;
+                    pos.dirX = 0;
+                    pos.dirY = 1;
                 }
                 if(mapchar[y][x] == 'W')
                 {
@@ -60,7 +60,7 @@ t_pos    getCampos(char **mapchar, t_initstyle confstyle)
                 if(mapchar[y][x] == 'E')
                 {
                     pos.dirX = 1;
-                    pos.dirY = -1;
+                    pos.dirY = 0;
                 }
                 mapchar[y][x] = '0';
             }   
