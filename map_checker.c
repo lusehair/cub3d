@@ -21,6 +21,97 @@ char *line_checker(char *line, t_initstyle *confstyle, int nb)
     return (temp); 
 }
 
+int     checkthezero(char **mapchar, int x, int y, int max)
+
+{
+    ft_printf("Hello This is the parser \n this is the famous line %s", mapchar[y]);
+    if(y == 0)
+        while(mapchar[y][x] == ' ' && y < max)
+        {
+            if(x == 0)
+            {
+                if( mapchar[y][x+1] != ' ')
+                    return (-1);
+                else if(mapchar[y][x+1] != '1')
+                    return (-1);
+            }    
+            else if(x > 0)
+            {
+                 if( mapchar[y][x+1] != ' ')
+                    return (-1);
+                else if(mapchar[y][x+1] != '1')
+                    return (-1);
+                else if( mapchar[y][x-1] != ' ')
+                    return (-1);
+                else if(mapchar[y][x-1] != '1')
+                    return (-1);
+            }
+
+        
+            if(mapchar[y+1][x] == ' ' && mapchar[y])
+                y++;
+            else if(mapchar[y+1][x] == '1')
+                return (0);
+            else if(mapchar[y+1][x] == '0')
+            {
+                puts("Bad logic 2");
+                return (-1);
+            }
+        x++;
+        }
+    if(y == max-1)
+        while(mapchar[y][x] == ' ' && y < max )
+         {
+            if(mapchar[y][x-1] != ' ' || mapchar[y][x+1] != ' ' || mapchar[y][x-1] != '1' || mapchar[y][x+1] != '1')
+            {
+                puts("bad logic 3");
+                return (-1);
+            }
+            if(mapchar[y-1][x] == ' ' && mapchar[y])
+                y++;
+            else if(mapchar[y-1][x] == '1')
+                return (0);
+            else if(mapchar[y-1][x] == '0')
+            {
+                puts("Bad logic 4");
+                return (-1);
+            }
+        }
+
+        return (0);
+}
+
+int     spacerline(t_mlx *data)
+{
+    int x;
+    int y; 
+    int i; 
+
+    i = 0;
+    x = 0;
+    y = 0; 
+    while(y < data->confstyle.longmap)
+    {
+        while(data->mapchar[y][x])
+        {
+            if((data->mapchar[y][x] == ' ') && (y == 0 || y == data->confstyle.longmap -1))
+                if(checkthezero(data->mapchar, x, y, data->confstyle.longmap) == -1)
+                {    
+                    puts("here");
+                    ft_close(data, BADMAP);
+                }
+            if(data->mapchar[y][x] == '1')
+                return (0);
+            x++;
+        }
+        x = 0;
+        y++;
+    }
+    return (0);
+}
+
+
+
 
 t_pos    getCampos(char **mapchar, t_initstyle confstyle)
 {
@@ -143,8 +234,8 @@ char     **get_map(int fd, t_initstyle *confstyle)
                 mapchar = malloc(sizeof(char*) * confstyle->largmap); 
             if(!(mapchar[i] = line_checker(line, confstyle, i)))
                 ft_close_inside_map(mapchar, confstyle);
-            if (ft_checkone(mapchar[i], i) == -1)
-                ft_close_inside_map(mapchar, confstyle);
+            // if (ft_checkone(mapchar[i], i) == -1)
+            //     ft_close_inside_map(mapchar, confstyle);
             confstyle->nbsprite += ft_countsprite(line);
             ft_printf("THE LINE %d : |%s|\n", i, line);
             //free(line);
@@ -153,15 +244,15 @@ char     **get_map(int fd, t_initstyle *confstyle)
     }
     if(!(mapchar[i] = line_checker(line, confstyle, i)))
         ft_close_inside_map(mapchar, confstyle);
-    if (ft_checkone(mapchar[i], i) == -1)
-        ft_close_inside_map(mapchar, confstyle);
+    // if (ft_checkone(mapchar[i], i) == -1)
+    //     ft_close_inside_map(mapchar, confstyle);
     confstyle->longmap = i;
     if (ft_strlen(line) == 0)
         i--;
-    if (checkwhitespaces(mapchar[0], mapchar[1], 1) == -1)
-        ft_close_inside_map(mapchar, confstyle);
-    if (checkwhitespaces(mapchar[i], mapchar[i-1], i) == -1)
-        ft_close_inside_map(mapchar, confstyle);
+    // if (checkwhitespaces(mapchar[0], mapchar[1], 1) == -1)
+    //     ft_close_inside_map(mapchar, confstyle);
+    // if (checkwhitespaces(mapchar[i], mapchar[i-1], i) == -1)
+    //     ft_close_inside_map(mapchar, confstyle);
     free(line);
     return (mapchar); 
 }

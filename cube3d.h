@@ -219,7 +219,7 @@ int     ft_initsprites(t_mlx *data);
 int     ft_drawsprite(t_mlx *data);
 int     ft_mapsizer(int fd, char **argv, t_mlx *data);
 void    ft_close_inside_map(char **mapinside, t_initstyle *style);
-
+int     spacerline(t_mlx *data);
 
 
 

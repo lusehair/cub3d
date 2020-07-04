@@ -37,6 +37,7 @@ int     main(int argc, char **argv)
     // ft_printf("Path for east wall : %s\n", print.confstyle.t_patheast);
     // ft_printf("Path for west wall : %s\n", print.confstyle.t_pathwest);
     print.mapchar = get_map(fd, &print.confstyle);
+    spacerline(&print);
     print.pos = getCampos(print.mapchar, print.confstyle); 
     if(print.pos.posX == 0)
         ft_close(&print, BADARGUM);
