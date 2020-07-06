@@ -1,34 +1,11 @@
 #include "cube3d.h"
 
-
-
-// int ft_close(t_mlx *print)
-// {
-//     int i; 
-
-//     while(print->mapchar[i])
-//     {
-//         free(print->mapchar[i]);
-//         i++; 
-//     }
-//     mlx_destroy_window(print->mlx_ptr, print->win); 
-//     mlx_destroy_image(print->mlx_ptr, print->img.img_ptr); 
-//     free(print->mlx_ptr);
-//     free(print->confstyle.t_patheast); 
-//     free(print->confstyle.t_pathnord);
-//     free(print->confstyle.t_pathsouth); 
-//     free(print->confstyle.t_pathwest); 
-//     free(print->confstyle.t_pathsprite); 
-//     exit(0);  
-//     return (0); 
-// }
-
 int   ft_onward(t_mlx *print)
 {
     if(print->mapchar[(int)(print->raycast.posY + print->raycast.dirY * 0.10)][(int)print->raycast.posX] != '1')
-        print->raycast.posY += print->raycast.dirY * 0.20; 
+        print->raycast.posY += print->raycast.dirY * 0.10; 
     if(print->mapchar[(int)print->raycast.posY][(int)(print->raycast.posX + print->raycast.dirX * 0.10)] != '1')
-        print->raycast.posX += print->raycast.dirX * 0.20; 
+        print->raycast.posX += print->raycast.dirX * 0.10; 
     ft_bzero(print->img.data, print->raycast.w * print->raycast.h * 4);
     ft_drawwalls(print);  
     return (1);
@@ -71,10 +48,10 @@ int ft_onleft(t_mlx *print)
 
 int ft_forward(t_mlx *print)
 {
-    if(print->mapchar[(int)(print->raycast.posY + print->raycast.dirY * 0.20)][(int)print->raycast.posX] != '1')
-        print->raycast.posY -= print->raycast.dirY * 0.20; 
-    if(print->mapchar[(int)print->raycast.posY][(int)(print->raycast.posX + print->raycast.dirX * 0.20)] != '1')
-        print->raycast.posX -= print->raycast.dirX * 0.20; 
+    if(print->mapchar[(int)(print->raycast.posY + print->raycast.dirY * 0.15)][(int)print->raycast.posX] != '1')
+        print->raycast.posY -= print->raycast.dirY * 0.15; 
+    if(print->mapchar[(int)print->raycast.posY][(int)(print->raycast.posX + print->raycast.dirX * 0.15)] != '1')
+        print->raycast.posX -= print->raycast.dirX * 0.15; 
     ft_bzero(print->img.data, print->raycast.w * print->raycast.h * 4);
     ft_drawwalls(print);  
     return (1);
@@ -87,7 +64,7 @@ int    keycode(int key, void *bidule)
     int put;
    
     if(key == ESC)
-        ft_close(bidule, ALL); 
+        ft_close(bidule, GOODBYE); 
     if(key == UP) // g_is_up_pressed = 1;
         ft_onward(bidule); 
     if(key == DOWN)

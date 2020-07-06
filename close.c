@@ -38,6 +38,16 @@ void    ft_close_inside_map(char **mapinside, t_initstyle *style)
 
 }
 
+void    ft_close_sprite(t_mlx *data)
+{
+    if(data->confstyle.nbsprite > 0)
+    {
+        free(data->raycast.sprites); 
+        free(data->raycast.spriteOrder);
+        free(data->raycast.ZBuffer);
+    }
+}
+
 void    ft_close_map(t_mlx *data)
 {
     int y; 
@@ -50,16 +60,25 @@ void    ft_close_map(t_mlx *data)
     }
 }
 
-void    ft_close_other(t_mlx *data)
+int    ft_closehook(int key, void *data)
 {
-    if(data->confstyle.nbsprite > 0)
-        free(data->raycast.ZBuffer);
-    
+    ft_close(data, GOODBYE);
+    return (0);
 }
 
 int ft_close(t_mlx *data, int bad)
 {
  
+    if(bad == GOODBYE)
+    {
+        ft_putstr("Goodbye, See you soon !\n");
+        ft_close_map(data);
+        ft_close_path(data);
+        ft_close_sprite(data);
+        mlx_destroy_image(data->mlx_ptr, data->img.img_ptr); 
+        mlx_destroy_window(data->mlx_ptr, data->win); 
+        exit(0);
+    }
     if(bad == BADMAP)
     {
         ft_putstr("Bad Mapping. Sorry ...\n");

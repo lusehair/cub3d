@@ -46,6 +46,7 @@ typedef struct		s_initstyle
 #define BADMALLOC 64
 #define BADARGUM 128 
 #define BADPOS 256
+#define GOODBYE 512
 #define ALL 512
 
 
@@ -223,6 +224,7 @@ int     spacerline(t_mlx *data);
 int spacewalker(t_mlx *data, int x, int y);
 int spacefounder(t_mlx *data);
 int zerowalker(t_mlx *data, int x, int y);
+int    ft_closehook(int key, void *data); 
 
 
 

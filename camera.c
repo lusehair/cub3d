@@ -7,10 +7,8 @@ int     drawline(int x, int y1, int y2, t_mlx *print , int color)
 {
     while(y1 < y2) 
     {
-   
-            //if (print->img.data[y1 * print->raycast.w + x])
-                print->img.data[y1 * print->raycast.w + x] = color; 
-            y1++;
+        print->img.data[y1 * print->raycast.w + x] = color; 
+        y1++;
     }
     return (0);
 }

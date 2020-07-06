@@ -56,7 +56,7 @@ int     main(int argc, char **argv)
     ft_drawwalls(&print);
     //ft_drawsprite(&print);
     mlx_hook(print.win,2,0 ,keycode,&print); 
-    //mlx_hook(print.win, 17, 0, ft_close, &print); 
+    mlx_hook(print.win, 17, 0, ft_closehook, &print);
     //mlx_put_image_to_window(print.mlx_ptr, print.win, print.img.img_ptr, 0, 0);
     //mlx_loop_hook(print.mlx_ptr, myloop, &print);
     mlx_loop(print.mlx_ptr); 

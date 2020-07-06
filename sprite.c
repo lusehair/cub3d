@@ -8,8 +8,6 @@ int     ft_initsprites(t_mlx *data)
     int x; 
     int y; 
     int s;
-    //int vMoveScreen = (int)vMove / data->raycast.transformY;
-
 
     x = 0;
     y = 0;
@@ -20,7 +18,6 @@ int     ft_initsprites(t_mlx *data)
         return (-1);
      if(!(data->raycast.spriteDistance = (int*)malloc(data->confstyle.nbsprite *sizeof(int))))
         return (-1);
-    //ft_printf("This is w : %d\n", data->raycast.w);
     if(!(data->raycast.ZBuffer = (double*)malloc(data->raycast.w * sizeof(double))))
         return (-1);
     while (y < data->confstyle.longmap)
@@ -70,26 +67,23 @@ void    sortS(t_mlx *data)
 
 int     ft_drawsprite(t_mlx *data)
 {
-
   int i; 
 
-
   i = 0; 
-
-    while(i < data->confstyle.nbsprite)
-    {
-      data->raycast.spriteOrder[i] = i;
-      data->raycast.spriteDistance[i] = ((data->raycast.posX - data->raycast.sprites[i].x) * (data->raycast.posX - data->raycast.sprites[i].x) + (data->raycast.posY - data->raycast.sprites[i].y) * (data->raycast.posY - data->raycast.sprites[i].y)); 
-      i++; 
-    }
-    sortS(data);
-    i = 0;
-    while(i < data->confstyle.nbsprite)
-    {
-      data->raysprite.spriteX = data->raycast.sprites[data->raycast.spriteOrder[i]].x - data->raycast.posX;
-      data->raysprite.spriteY = data->raycast.sprites[data->raycast.spriteOrder[i]].y - data->raycast.posY;
-      data->raysprite.invDet = 1.0 / (data->raycast.planeX * data->raycast.dirY - data->raycast.dirX * data->raycast.planeY); 
-      data->raysprite.transformX = data->raysprite.invDet * (data->raycast.dirY * data->raysprite.spriteX - data->raycast.dirX * data->raysprite.spriteY);
+  while(i < data->confstyle.nbsprite)
+  {
+    data->raycast.spriteOrder[i] = i;
+    data->raycast.spriteDistance[i] = ((data->raycast.posX - data->raycast.sprites[i].x) * (data->raycast.posX - data->raycast.sprites[i].x) + (data->raycast.posY - data->raycast.sprites[i].y) * (data->raycast.posY - data->raycast.sprites[i].y)); 
+    i++; 
+  }
+  sortS(data);
+  i = 0;
+  while(i < data->confstyle.nbsprite)
+  {
+    data->raysprite.spriteX = data->raycast.sprites[data->raycast.spriteOrder[i]].x - data->raycast.posX;
+    data->raysprite.spriteY = data->raycast.sprites[data->raycast.spriteOrder[i]].y - data->raycast.posY;
+    data->raysprite.invDet = 1.0 / (data->raycast.planeX * data->raycast.dirY - data->raycast.dirX * data->raycast.planeY); 
+    data->raysprite.transformX = data->raysprite.invDet * (data->raycast.dirY * data->raysprite.spriteX - data->raycast.dirX * data->raysprite.spriteY);
       data->raysprite.transformY = data->raysprite.invDet * (-data->raycast.planeY * data->raysprite.spriteX + data->raycast.planeX * data->raysprite.spriteY); 
       data->raysprite.spriteScreenX = (int)((data->raycast.w / 2) * (1 + data->raysprite.transformX / data->raysprite.transformY));
       data->raysprite.vMoveScreen = (int)(vMove / data->raysprite.transformY);
@@ -115,12 +109,9 @@ int     ft_drawsprite(t_mlx *data)
         //printf("transy : %f and stripeZ %f \n", data->raysprite.transformY, data->raycast.ZBuffer[data->raysprite.stripe]);
         if(data->raysprite.transformY > 0 && data->raysprite.stripe > 0 && data->raysprite.stripe < data->raycast.w && data->raysprite.transformY < data->raycast.ZBuffer[data->raysprite.stripe])
         {
-                                    //puts("here pix");
 
           while(data->raysprite.y < data->raysprite.drawEndY) 
           {
-            
-
             data->raysprite.d = (data->raysprite.y) * 256 - data->raycast.h * 128 + data->raysprite.spriteHeight * 128; 
             data->raysprite.texY = ((data->raysprite.d * data->textsprite.img_weight) / data->raysprite.spriteHeight) /256 ;
             data->raysprite.color = data->textsprite.data[data->textsprite.img_width  * data->raysprite.texY + data->raysprite.texX]; 

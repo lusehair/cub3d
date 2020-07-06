@@ -72,7 +72,7 @@ void    hit_collison(t_mlx *print)
         else
         {
           print->raycast.sideDistY += print->raycast.deltaDistY;
-          print->raycast.mapY += print->raycast.stepY;
+          print->raycast.mapY += print->raycast.stepY ;
           print->raycast.side = 1;
         }
         if (print->mapchar[print->raycast.mapY][print->raycast.mapX] == '1')
@@ -90,9 +90,7 @@ void   cut_the_wall(t_mlx *print)
         print->raycast.lineHeight = abs((int)(print->raycast.h / print->raycast.perpWallDist));
       print->raycast.drawStart = -print->raycast.lineHeight / 2 + print->raycast.h / 2;
       if(print->raycast.drawStart < 0)
-      {
         print->raycast.drawStart = 0;
-      }
       print->raycast.drawEnd = print->raycast.lineHeight / 2 + print->raycast.h / 2;
       if(print->raycast.drawEnd >= print->raycast.h)
         print->raycast.drawEnd = print->raycast.h - 1;
@@ -108,18 +106,16 @@ void   cut_the_wall(t_mlx *print)
 
 int     ft_drawwalls(t_mlx *print)
 {
-
-    //ft_printf("here X %d\n, here y %d\n", print->pos.posX, print->pos.posY);
     print->raycast.x = 0; 
     while(print->raycast.x < print->raycast.w)
     {
-       print->raycast.cameraX = 2 * print->raycast.x / (double)print->raycast.w - 1;
+      print->raycast.cameraX = 2 * print->raycast.x / (double)print->raycast.w - 1;
       print->raycast.rayDirX = print->raycast.dirX + print->raycast.planeX * print->raycast.cameraX;
       print->raycast.rayDirY = print->raycast.dirY + print->raycast.planeY * print->raycast.cameraX;
       print->raycast.mapX = (int)print->raycast.posX;
       print->raycast.mapY = (int)print->raycast.posY;
       print->raycast.deltaDistX = fabs(1 / print->raycast.rayDirX);
-	print->raycast.deltaDistY = fabs(1 / print->raycast.rayDirY);
+	    print->raycast.deltaDistY = fabs(1 / print->raycast.rayDirY);
       print->raycast.hit = 0; 
       sidechecker(print);
       hit_collison(print);
@@ -127,17 +123,11 @@ int     ft_drawwalls(t_mlx *print)
       drawline(print->raycast.x,print->confstyle.r_res[1]/2,print->confstyle.r_res[1], print, print->confstyle.colorFloor); 
       drawline(print->raycast.x, 0,print->raycast.drawStart, print, print->confstyle.colorSky); 
       drawall(print->raycast.x, print->raycast.drawStart, print->raycast.drawEnd, print);
-     
-     
-     
       print->raycast.ZBuffer[print->raycast.x] = print->raycast.perpWallDist; 
       print->raycast.x++;
     }
     if(print->confstyle.nbsprite > 0)
-      ft_drawsprite(print);
-    //puts("before the damage");
+    ft_drawsprite(print);
     mlx_put_image_to_window(print->mlx_ptr, print->win, print->img.img_ptr, 0, 0);
-   return (0);
+    return (0);
 }
-
-//1297437786
