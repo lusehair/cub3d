@@ -9,37 +9,26 @@ int   ft_initrcstruct(t_raycast *raycast,  t_initstyle *style, t_pos pos)
     raycast->w = style->r_res[0]; 
     raycast->h = style->r_res[1]; 
     raycast->hit = 0; 
-    
     if(pos.dir == 'N')
     {
-            
-             //puts("ICI ICI");
-
       raycast->planeX = -M_PI_2; 
       raycast->planeY = 0;
     }
     else if(pos.dir == 'S')
     {
-      //puts("ICI ICI");
       raycast->planeX = M_PI_2;
       raycast->planeY = 0;
     }
     else if(pos.dir == 'E')
     {
-            //puts("ICI ICI");
-
       raycast->planeX = 0;
       raycast->planeY = M_PI_2;
     }
     else if(pos.dir == 'W')
     {
-            //puts("ICI ICI");
-
       raycast->planeX = 0;
       raycast->planeY = -M_PI_2;
     }
-        //ft_printf("This or is posX %d\n",pos.posX);
-
     return (0);
 }
 
@@ -74,7 +63,6 @@ void    hit_collison(t_mlx *print)
 {
   while (print->raycast.hit == 0)
       {
-         //ft_printf("this is mapY %d and mapX %d\n", print->raycast.mapY, print->raycast.mapX); 
         if (print->raycast.sideDistX < print->raycast.sideDistY)
         {
           print->raycast.sideDistX += print->raycast.deltaDistX;

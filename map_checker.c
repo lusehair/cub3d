@@ -21,95 +21,6 @@ char *line_checker(char *line, t_initstyle *confstyle, int nb)
     return (temp); 
 }
 
-int     checkthezero(char **mapchar, int x, int y, int max)
-
-{
-    ft_printf("Hello This is the parser \n this is the famous line %s", mapchar[y]);
-    if(y == 0)
-        while(mapchar[y][x] == ' ' && y < max)
-        {
-            if(x == 0)
-            {
-                if( mapchar[y][x+1] != ' ')
-                    return (-1);
-                else if(mapchar[y][x+1] != '1')
-                    return (-1);
-            }    
-            else if(x > 0)
-            {
-                 if( mapchar[y][x+1] != ' ')
-                    return (-1);
-                else if(mapchar[y][x+1] != '1')
-                    return (-1);
-                else if( mapchar[y][x-1] != ' ')
-                    return (-1);
-                else if(mapchar[y][x-1] != '1')
-                    return (-1);
-            }
-
-        
-            if(mapchar[y+1][x] == ' ' && mapchar[y])
-                y++;
-            else if(mapchar[y+1][x] == '1')
-                return (0);
-            else if(mapchar[y+1][x] == '0')
-            {
-                puts("Bad logic 2");
-                return (-1);
-            }
-        x++;
-        }
-    if(y == max-1)
-        while(mapchar[y][x] == ' ' && y < max )
-         {
-            if(mapchar[y][x-1] != ' ' || mapchar[y][x+1] != ' ' || mapchar[y][x-1] != '1' || mapchar[y][x+1] != '1')
-            {
-                puts("bad logic 3");
-                return (-1);
-            }
-            if(mapchar[y-1][x] == ' ' && mapchar[y])
-                y++;
-            else if(mapchar[y-1][x] == '1')
-                return (0);
-            else if(mapchar[y-1][x] == '0')
-            {
-                puts("Bad logic 4");
-                return (-1);
-            }
-        }
-
-        return (0);
-}
-
-int     spacerline(t_mlx *data)
-{
-    int x;
-    int y; 
-    int i; 
-
-    i = 0;
-    x = 0;
-    y = 0; 
-    while(y < data->confstyle.longmap)
-    {
-        while(data->mapchar[y][x])
-        {
-            if((data->mapchar[y][x] == ' ') && (y == 0 || y == data->confstyle.longmap -1))
-                if(checkthezero(data->mapchar, x, y, data->confstyle.longmap) == -1)
-                {    
-                    puts("here");
-                    ft_close(data, BADMAP);
-                }
-            if(data->mapchar[y][x] == '1')
-                return (0);
-            x++;
-        }
-        x = 0;
-        y++;
-    }
-    return (0);
-}
-
 
 
 
@@ -164,23 +75,45 @@ t_pos    getCampos(char **mapchar, t_initstyle confstyle)
 
 }
 
-int     ft_checkone(char *line,  int i)
+int     ft_checkone(t_mlx *data)
 {
-    int a; 
+  int y; 
+  int x; 
 
-    a = 1;
-    if (i > 0 && ft_strlen(line) > 0)
-    {
-        if(line[0] != '1' || line[ft_strlen(line)-1] != '1')    
-            return (-1); 
-        while(line[a])
-        {
-            if (line[a] == ' ')
-                line[a] = '0';
-        a++;
-        }
-    }
-    return (0);
+  y = 0;
+  x = 0;
+  while(x < ft_strlen(data->mapchar[y]))
+  {
+      if(data->mapchar[y][x] == '1')
+        x++;
+      if(data->mapchar[y][x] == ' ')
+      {
+        puts("spaceOne");
+        spacewalker(data, x, y);
+      }
+      if(data->mapchar[y][x] == '0')
+      {
+        puts("bonne pioceh 3");
+        ft_close(data, BADMAP);
+      }
+      x++;
+  }
+  x = 0;
+  y = data->confstyle.longmap;
+while(x < ft_strlen(data->mapchar[y]))
+  {
+      if(data->mapchar[y][x] == 1)
+        x++;
+    //   if(data->mapchar[y][x] == ' ')
+    //     spacewalker(data, x, y);
+      if(data->mapchar[y][x] == '0')
+      {
+        puts("bonne pioche 3bis");
+        ft_close(data, BADMAP);  
+      }
+    x++;
+  }
+return(0);
 }
 
 int     ft_countsprite(char *line)
@@ -199,24 +132,116 @@ int     ft_countsprite(char *line)
     return (sprite);
 }
 
-int     checkwhitespaces(char *currentline, char *neigbourhline, int nbline)
+int     ft_checkborder(char *line)
 {
     int i; 
+    int out; 
 
     i = 0; 
-    while(currentline[i] != '\0')
+    //ft_printf("BORDER LINE : |%s|\n", line);
+    while(line[i] != '\0')
     {
-        if((currentline[i] == ' ' || currentline[i] == '0') && nbline == 0 && neigbourhline[i] == '1')
-            currentline[i] = '1'; 
-        else if((currentline[i] == ' ' || currentline[i] == '0') && nbline == 0 && neigbourhline[i] != '1')
+        if(line[i] == ' ')
+            i++;
+        else if(line[i] != '1')
             return (-1);
-        if((currentline[i] == ' ' || currentline[i] == '0') && nbline > 0 && neigbourhline[i] == '1')
-            currentline[i] = '1';
-        else if((currentline[i] == ' ' || currentline[i] == '0')&& nbline > 0 && neigbourhline[i] != '1')
+        else if (line[i] == '1')
+            break;
+    }
+    i = ft_strlen(line) -1; 
+    //ft_printf("CEST LE I %d and the char %c\n", i, line[i]);
+    while(i > 0)
+    {
+        if(line[i] == ' ')
+            i--;
+        else if(line[i] != '1')
             return (-1);
-        i++;
+        else if(line[i] == '1')
+            break;
+        //puts("maybe here");
     }
     return (0);
+}
+
+
+int spacefounder(t_mlx *data)
+{
+    int x;
+    int y; 
+
+    x = 0;
+    y = 0; 
+        //ft_printf("THE LINE TOTO %d\n", data->confstyle.longmap);
+
+    while(y < data->confstyle.longmap)
+    {
+        if(ft_checkborder(data->mapchar[y]) == -1)
+            ft_close(data, BADMAP);
+        while(x < ft_strlen(data->mapchar[y]))
+        {
+                
+                if(y == 11 && data->mapchar[11][16] == '0')
+                    ft_printf("the 10 line : %s\n", data->mapchar[y]);
+                if(data->mapchar[y][x] == '0')
+                    if(zerowalker(data,x,y) == -1)
+                        ft_close(data, BADMAP);
+                if(data->mapchar[y][x] == ' ')
+                    spacewalker(data,x,y);
+                x++;
+        }
+        x = 0;
+        y++;
+            
+    }
+    return (0);
+}
+
+int spacewalker(t_mlx *data, int x, int y)
+{
+    //ft_printf("|%c| y : %d et x : %d\n", data->mapchar[y][x], y, x);
+    if (y < data->confstyle.longmap)
+    {
+        if(x < ft_strlen(data->mapchar[y] -1))
+        {
+            if(data->mapchar[y][x+1] == ' ')
+                spacewalker(data,x+1,y);
+            if(data->mapchar[y+1][x] == ' ')
+                spacewalker(data, x, y+1);
+            // if(data->mapchar[y][x+1] == '1' || data->mapchar[y+1][x] == '1')
+            //     return(0);
+            if(data->mapchar[y][x+1] == '0' || data->mapchar[y+1][x] == '0')
+            {
+                puts("Bonne pioche");
+                ft_close(data, BADMAP);
+            }         
+        x++;
+        }
+        y++;
+    }
+    return(0);
+}
+
+int zerowalker(t_mlx *data, int x, int y)
+{
+    int ret; 
+    
+    ret = 0;
+    if(data->mapchar[y][x+1] == ' ')
+        return (-1);
+    if(data->mapchar[y][x+1] == '0')
+        ret = 0;
+    if(data->mapchar[y+1][x] == ' ')
+        return (-1);
+    if(data->mapchar[y+1][x] == '0')
+        ret = 0;
+    if(data->mapchar[y][x+1] == '1')
+        ret = 0;
+    if(data->mapchar[y+1][x] == '1')
+        ret = 0;
+    if(ft_strlen(data->mapchar[y-1]) < x)
+        return (-1);
+    
+    return (ret);
 }
 
 char     **get_map(int fd, t_initstyle *confstyle)
@@ -234,21 +259,18 @@ char     **get_map(int fd, t_initstyle *confstyle)
                 mapchar = malloc(sizeof(char*) * confstyle->largmap); 
             if(!(mapchar[i] = line_checker(line, confstyle, i)))
                 ft_close_inside_map(mapchar, confstyle);
-            // if (ft_checkone(mapchar[i], i) == -1)
-            //     ft_close_inside_map(mapchar, confstyle);
             confstyle->nbsprite += ft_countsprite(line);
-            ft_printf("THE LINE %d : |%s|\n", i, line);
+            //ft_printf("THE LINE %d : |%s|\n", i, line);
             //free(line);
             i++; 
         }
     }
     if(!(mapchar[i] = line_checker(line, confstyle, i)))
         ft_close_inside_map(mapchar, confstyle);
-    // if (ft_checkone(mapchar[i], i) == -1)
-    //     ft_close_inside_map(mapchar, confstyle);
-    confstyle->longmap = i;
+   
     if (ft_strlen(line) == 0)
         i--;
+    confstyle->longmap = i;
     // if (checkwhitespaces(mapchar[0], mapchar[1], 1) == -1)
     //     ft_close_inside_map(mapchar, confstyle);
     // if (checkwhitespaces(mapchar[i], mapchar[i-1], i) == -1)
@@ -280,3 +302,34 @@ int     ft_mapsizer(int fd, char **argv, t_mlx *data)
             i++;       
     return (nbline);
 }
+
+
+// int zerowalker(t_mlx *data, int x, int y)
+// {
+    
+//     //ft_printf("|%c| y : %d et x : %d\n", data->mapchar[y][x], y, x);
+//     if (y < data->confstyle.longmap)
+//     {
+//         if(x < ft_strlen(data->mapchar[y]))
+//         {
+//             if(data->mapchar[y][x+1] == '0')
+//             {    
+//                 zerowalker(data,x+1,y);
+//             }
+//             if(data->mapchar[y+1][x] == '0')
+//             {
+//                 zerowalker(data, x, y+1);
+//                 puts("maybe here");
+//             }
+//             //if(y == 11 && x == 8 && data->mapchar[y+1][x] == ' ')
+//             if(data->mapchar[y][x+1] == '1' || data->mapchar[y+1][x] == '1')
+//                 return(0);
+//             if(data->mapchar[y][x+1] == ' ' || data->mapchar[y+1][x] == ' ')
+//             {
+//                 puts("Bonne pioche1");
+//                 ft_close(data, BADMAP);
+//             }         
+//         }
+//     }
+//     return (0);
+// }

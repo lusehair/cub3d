@@ -37,12 +37,16 @@ int     main(int argc, char **argv)
     // ft_printf("Path for east wall : %s\n", print.confstyle.t_patheast);
     // ft_printf("Path for west wall : %s\n", print.confstyle.t_pathwest);
     print.mapchar = get_map(fd, &print.confstyle);
-    spacerline(&print);
+    
     print.pos = getCampos(print.mapchar, print.confstyle); 
     if(print.pos.posX == 0)
         ft_close(&print, BADARGUM);
+    ft_checkone(&print);
+    //spacewalker(&print,0,0);
+    spacefounder(&print);
     print.mlx_ptr = mlx_init();
     print.win = mlx_new_window(print.mlx_ptr, print.confstyle.r_res[0], print.confstyle.r_res[1], "screen test"); 
+    
     ft_initrcstruct(&print.raycast,&print.confstyle, print.pos); 
     ft_initsprites(&print); 
     print.img.img_ptr = mlx_new_image(print.mlx_ptr, print.raycast.w, print.raycast.h);

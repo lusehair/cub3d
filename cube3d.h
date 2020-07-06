@@ -211,7 +211,7 @@ int    ft_initrcstruct(t_raycast *raycast,  t_initstyle *style, t_pos pos);
 void     ft_RBGtoINT(t_initstyle *confstyle);
 int    keycode(int key, void *bidule); 
 int ft_close(t_mlx *data, int bad);
-int     ft_checkone(char *line, int i); 
+int     ft_checkone(t_mlx *data); 
 void     ft_opentexture(t_mlx *print);
 int     drawall(int x, int y1, int y2, t_mlx *print); 
 int  insertex(t_mlx *print);
@@ -220,6 +220,11 @@ int     ft_drawsprite(t_mlx *data);
 int     ft_mapsizer(int fd, char **argv, t_mlx *data);
 void    ft_close_inside_map(char **mapinside, t_initstyle *style);
 int     spacerline(t_mlx *data);
+int spacewalker(t_mlx *data, int x, int y);
+int spacefounder(t_mlx *data);
+int zerowalker(t_mlx *data, int x, int y);
+
+
 
 
 
