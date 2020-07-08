@@ -3,16 +3,6 @@
 #include <unistd.h> 
 #include <fcntl.h>
 
-#define mapWidth 24
-#define mapHeight 24
-#define screenWidth 640
-#define screenHeight 480
-#define RGB_Red 16711680
-#define RGB_Green 65280
-#define RGB_Blue 255
-#define RGB_White 16777215
-#define RGB_Yellow 16776960
-
 // int myloop(void *ptr)
 // {
 //     // if (g_is_up_pressed) {}
@@ -24,9 +14,11 @@ int     main(int argc, char **argv)
     t_mlx print; 
     int fd; 
     
-    if (argc != 2)
+    if (argc < 2)
 	    return (-1);
-     fd = open(argv[1], O_RDONLY);
+    if(argc > 3)
+        return (-1);
+    fd = open(argv[1], O_RDONLY);
     initstyle(fd, &print);
     print.confstyle.largmap = ft_mapsizer(fd, argv, &print);
     //ft_printf("RES : %d for X and %d for Y\n", print.confstyle.r_res[0], print.confstyle.r_res[1]);
@@ -37,7 +29,6 @@ int     main(int argc, char **argv)
     // ft_printf("Path for east wall : %s\n", print.confstyle.t_patheast);
     // ft_printf("Path for west wall : %s\n", print.confstyle.t_pathwest);
     print.mapchar = get_map(fd, &print.confstyle);
-    
     print.pos = getCampos(print.mapchar, print.confstyle); 
     if(print.pos.posX == 0)
         ft_close(&print, BADARGUM);
@@ -45,6 +36,7 @@ int     main(int argc, char **argv)
     //spacewalker(&print,0,0);
     spacefounder(&print);
     print.mlx_ptr = mlx_init();
+ 
     print.win = mlx_new_window(print.mlx_ptr, print.confstyle.r_res[0], print.confstyle.r_res[1], "screen test"); 
     
     ft_initrcstruct(&print.raycast,&print.confstyle, print.pos); 
@@ -54,6 +46,15 @@ int     main(int argc, char **argv)
     ft_printf("the path of  %d\n", print.confstyle.nbsprite);
     ft_opentexture(&print);
     ft_drawwalls(&print);
+    if (argc == 3)
+    {
+        if(ft_strncmp(argv[2], "--save", 6) == 0)
+        {
+        ft_savepic(&print);
+        }
+        else
+            return (-1);
+    }
     //ft_drawsprite(&print);
     mlx_hook(print.win,2,0 ,keycode,&print); 
     mlx_hook(print.win, 17, 0, ft_closehook, &print);
