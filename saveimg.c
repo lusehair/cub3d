@@ -42,6 +42,6 @@ int    ft_savepic(t_mlx *data)
     ft_gotothepic(data);
     write(fd, data->pic.size, 54); 
     if ((mem = (char*)(data->img.data)) != NULL)
-        write(fd, mem, (int)(data->confstyle.r_res[0] * data->confstyle.r_res[1]));
+        write(fd, mem, (int)((data->confstyle.r_res[0] * data->confstyle.r_res[1])));
     return (0);
 }

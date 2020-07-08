@@ -16,12 +16,12 @@ int  ft_onright(t_mlx *print)
 {
     double temp; 
     double tempPlaneX; 
-
+    
     temp= print->raycast.dirX; 
     tempPlaneX = print->raycast.planeX;
     print->raycast.dirX = print->raycast.dirX * cos(-0.10) - print->raycast.dirY * sin(-0.10); 
     print->raycast.dirY = temp * sin(-0.10) + print->raycast.dirY * cos(-0.10); 
-    temp = print->raycast.planeX; 
+    temp = print->raycast.planeX;
     print->raycast.planeX = print->raycast.planeX * cos(-0.10) - print->raycast.planeY * sin(-0.10); 
     print->raycast.planeY = temp * sin(-0.10) + print->raycast.planeY * cos(-0.10); 
     ft_bzero(print->img.data, print->raycast.w * print->raycast.h * 4); 
@@ -48,10 +48,10 @@ int ft_onleft(t_mlx *print)
 
 int ft_forward(t_mlx *print)
 {
-    if(print->mapchar[(int)(print->raycast.posY + print->raycast.dirY * 0.15)][(int)print->raycast.posX] != '1')
-        print->raycast.posY -= print->raycast.dirY * 0.15; 
-    if(print->mapchar[(int)print->raycast.posY][(int)(print->raycast.posX + print->raycast.dirX * 0.15)] != '1')
-        print->raycast.posX -= print->raycast.dirX * 0.15; 
+    if(print->mapchar[(int)(print->raycast.posY + print->raycast.dirY * 0.10)][(int)print->raycast.posX] != '1')
+        print->raycast.posY -= print->raycast.dirY * 0.10; 
+    if(print->mapchar[(int)print->raycast.posY][(int)(print->raycast.posX + print->raycast.dirX * 0.10)] != '1')
+        print->raycast.posX -= print->raycast.dirX * 0.10; 
     ft_bzero(print->img.data, print->raycast.w * print->raycast.h * 4);
     ft_drawwalls(print);  
     return (1);
