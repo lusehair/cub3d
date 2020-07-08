@@ -158,6 +158,24 @@ typedef struct	s_img
 	int			endian;
 }				t_img;
 
+typedef struct s_pic
+{
+    char    size[54]; // header 
+    unsigned int     pixel; //pixcount
+    unsigned int     buff; //buffsize
+    unsigned int     tsize; //total_pixel 
+    unsigned int     offset; // pix_data_offset
+    unsigned int     sizer; // header_size; 
+    int     picw; // imagewidth
+    int     pich; // imageheight
+    short     color; // color_planes
+    short     bpp; 
+    int     resize; // compression 
+    int     allcolor; // total_color 
+
+}   t_pic;
+
+
 typedef struct	s_mlx
 {
 	void		*mlx_ptr;
@@ -173,8 +191,8 @@ typedef struct	s_mlx
     t_texture   textnorth; 
     t_texture   textsprite; 
     t_raysprite raysprite;
+    t_pic       pic; 
 }				t_mlx;
-
 
 
 
@@ -225,7 +243,7 @@ int spacewalker(t_mlx *data, int x, int y);
 int spacefounder(t_mlx *data);
 int zerowalker(t_mlx *data, int x, int y);
 int    ft_closehook(int key, void *data); 
-
+int    ft_savepic(t_mlx *data);
 
 
 
