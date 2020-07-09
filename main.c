@@ -13,7 +13,10 @@ int     main(int argc, char **argv)
 
     t_mlx print; 
     int fd; 
-    
+    int i;
+    char *line;
+
+    i = 0;
     if (argc < 2)
 	    return (-1);
     if(argc > 3)
@@ -28,7 +31,10 @@ int     main(int argc, char **argv)
     // ft_printf("Path for south wall : %s\n", print.confstyle.t_pathsouth);
     // ft_printf("Path for east wall : %s\n", print.confstyle.t_patheast);
     // ft_printf("Path for west wall : %s\n", print.confstyle.t_pathwest);
-    print.mapchar = get_map(fd, &print.confstyle);
+    // fd = open(argv[1], O_RDONLY); 
+    // while(get_next_line(fd, &line) && i < print.confstyle.posmap)
+    //         i++;       
+    print.mapchar = get_map(fd, &print.confstyle, argv[1]);
     print.pos = getCampos(print.mapchar, print.confstyle); 
     if(print.pos.posX == 0)
         ft_close(&print, BADARGUM);
@@ -36,7 +42,8 @@ int     main(int argc, char **argv)
     //spacewalker(&print,0,0);
     spacefounder(&print);
     print.mlx_ptr = mlx_init();
- 
+        ft_checkres(&print);    
+
     print.win = mlx_new_window(print.mlx_ptr, print.confstyle.r_res[0], print.confstyle.r_res[1], "screen test"); 
     
     ft_initrcstruct(&print.raycast,&print.confstyle, print.pos); 
@@ -56,7 +63,7 @@ int     main(int argc, char **argv)
             return (-1);
     }
     //ft_drawsprite(&print);
-    mlx_hook(print.win,2,0 ,keycode,&print); 
+    mlx_hook(print.win,2, 1L << 0 ,keycode,&print); 
     mlx_hook(print.win, 17, 0, ft_closehook, &print);
     //mlx_put_image_to_window(print.mlx_ptr, print.win, print.img.img_ptr, 0, 0);
     //mlx_loop_hook(print.mlx_ptr, myloop, &print);

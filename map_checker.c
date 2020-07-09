@@ -215,19 +215,27 @@ int zerowalker(t_mlx *data, int x, int y)
     return (ret);
 }
 
-char     **get_map(int fd, t_initstyle *confstyle)
+char     **get_map(int fd, t_initstyle *confstyle, char *path)
 {
     char **mapchar;
     int i; 
     char *line; 
 
-    i = 0;    
+    i = 0;  
+    confstyle->largmap = 5;
+    fd = open(path, O_RDONLY);
+    while(get_next_line(fd, &line) && i < confstyle->posmap)
+            i++;   
+    i = 0;  
     while (get_next_line(fd, &line))
     {
+                            puts("linux fait chier");
+
         if (ft_strlen(line) > 0)
         {
             if(i == 0)
                 mapchar = malloc(sizeof(char*) * confstyle->largmap); 
+
             if(!(mapchar[i] = line_checker(line, confstyle, i)))
                 ft_close_inside_map(mapchar, confstyle);
             confstyle->nbsprite += ft_countsprite(line);
@@ -256,15 +264,16 @@ int     ft_mapsizer(int fd, char **argv, t_mlx *data)
     {
         if(ft_strlen(line) > 0)
         {
+            ft_printf("c'est la string %s\n", line);
             nbline++;
             free(line);
         }
         nbline++;
     }
     close(fd);
-    fd = open(argv[1], O_RDONLY); 
-    while(get_next_line(fd, &line) && i < data->confstyle.posmap)
-            i++;       
+    // fd = open(argv[1], O_RDONLY); 
+    // while(get_next_line(fd, &line) && i < data->confstyle.posmap)
+    //         i++;       
     return (nbline);
 }
 

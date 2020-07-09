@@ -3,8 +3,9 @@
 
 #include "libft/libft.h"
 #include "libft/ft_printf/ft_printf.h"
+#include "libft/get_next_line.h"
 #include <math.h> 
-#include "mlx.h"
+#include "minilibx-linux/mlx.h"
 #include <stdio.h> 
 #include "cube3d.h"
 #include <unistd.h> 
@@ -34,13 +35,13 @@ typedef struct		s_initstyle
 
 
 
-#define UP 126
-#define RIGHT 123
-#define LEFT 124
-#define DOWN 125
+#define UP 119
+#define RIGHT 97
+#define LEFT 100
+#define DOWN 115
 #define SPEED 0.3
 #define TURN 0.05
-#define ESC 53
+#define ESC 65307
 #define BADMAP 16
 #define BADPATH 32
 #define BADMALLOC 64
@@ -221,7 +222,7 @@ int    optselector(struct s_initstyle *confstyle, char *buff, int *checkfull);
 int    mappush(struct s_buildmap **prec, char *line); 
 int SizeLineMap(struct s_buildmap *mapbuilder); 
 int printmap(t_buildmap *mapbuilder);
-char     **get_map(int fd, t_initstyle *confstyle); 
+char     **get_map(int fd, t_initstyle *confstyle, char *path); 
 int   mini_drawmap(char **mapchar, void *mlx_ptr, void *win_ptr);
 t_pos    getCampos(char **mapchar, t_initstyle confstyle);
 int     drawline(int x1, int y1, int y2, t_mlx *print, int color);
@@ -244,6 +245,8 @@ int spacefounder(t_mlx *data);
 int zerowalker(t_mlx *data, int x, int y);
 int    ft_closehook(int key, void *data); 
 int    ft_savepic(t_mlx *data);
+void      ft_checkres(t_mlx *data);    
+
 
 
 

@@ -84,6 +84,21 @@ int     ft_checkbadconf(char *buff)
     return (0);
 }
 
+void    ft_checkres(t_mlx *data)
+{
+    int    maxx;
+    int    maxy;
+    puts("before the call");
+    mlx_get_screen_size(data->mlx_ptr, &maxx, &maxy);
+    puts("after the call");
+    if(data->confstyle.r_res[0] > maxx || data->confstyle.r_res[1] > maxy)
+    {
+        puts("on est la");
+        data->confstyle.r_res[0] = maxx; 
+        data->confstyle.r_res[1] = maxy; 
+    }
+}
+
 int    initstyle(int fd, t_mlx *data)
 {   
     char *buff;
@@ -111,6 +126,9 @@ int    initstyle(int fd, t_mlx *data)
     ft_RBGtoINT(&data->confstyle); 
     return (0);
 }
+
+
+
 
 void     ft_RBGtoINT(t_initstyle *confstyle)
 {

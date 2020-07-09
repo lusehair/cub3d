@@ -27,8 +27,8 @@ int     ft_initsprites(t_mlx *data)
         {
             if (data->mapchar[y][x] == '2')
             {
-                data->raycast.sprites[s].x = x;
-                data->raycast.sprites[s].y = y; 
+                data->raycast.sprites[s].x = x + 0.5;
+                data->raycast.sprites[s].y = y + 0.5; 
                 s++;
             }
             x++;
