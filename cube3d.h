@@ -39,6 +39,8 @@ typedef struct		s_initstyle
 #define RIGHT 97
 #define LEFT 100
 #define DOWN 115
+#define TURNRIGHT 65363
+#define TURNLEFT 65361
 #define SPEED 0.3
 #define TURN 0.05
 #define ESC 65307
@@ -48,7 +50,7 @@ typedef struct		s_initstyle
 #define BADARGUM 128 
 #define BADPOS 256
 #define GOODBYE 512
-#define ALL 512
+#define ALL 512 
 
 
 

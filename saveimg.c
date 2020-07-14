@@ -36,24 +36,31 @@ int    ft_savepic(t_mlx *data)
     int fd;
     char *mem;
     int y;
-    int i;
+    int x;
+    int i; 
 
     if(!(fd = open("lusehair_Cube3D.bmp", O_RDWR | O_CREAT, 77777)))
         return (-1);
     ft_pic_init(data);
     ft_gotothepic(data);
     write(fd, data->pic.size, 54); 
-    y = data->raycast.h - 4;
+    y = 0;
+
     ft_printf("This is the : y %d\n", y);
     i = 0;
     if ((mem = (char*)(data->img.data)) != NULL)
     {
-        while(y > 0)
+        while(y <  data->confstyle.r_res[1])
         {
-            write(fd, mem+y, 4); 
-            y = y-4;
-            puts("into the wild");
-
+            x = 0;
+            i = data->confstyle.r_res[0] * (data->confstyle.r_res[1] - y);
+            while(x < data->confstyle.r_res[0])
+            {
+                write(fd, &mem[i* 4], 4);
+                i++;
+                x++;
+            }
+            y++;
         }
         //write(fd, mem, (int)(data->confstyle.r_res[0] * data->confstyle.r_res[1] * 4));
     }

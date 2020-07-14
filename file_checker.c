@@ -12,6 +12,8 @@ void       conf_reseter(t_mlx *data)
     data->confstyle.t_pathsprite = NULL;  
     data->confstyle.nbsprite = 0;
     data->pos.dirX = 0;
+    data->confstyle.largmap = 0;
+    data->confstyle.posmap = 0;
 }
 
 int     checkfullopt(int *checkfull)

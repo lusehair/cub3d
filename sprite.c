@@ -25,6 +25,7 @@ int     ft_initsprites(t_mlx *data)
         ft_printf("|%s|\n", data->mapchar[y]);
         while (data->mapchar[y][x])
         {
+            //ft_printf("THE LINE %d |%s|\n", x, data->mapchar[x]);
             if (data->mapchar[y][x] == '2')
             {
                 data->raycast.sprites[s].x = x + 0.5;
