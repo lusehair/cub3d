@@ -36,8 +36,8 @@ typedef struct		s_initstyle
 
 
 #define UP 119
-#define RIGHT 97
-#define LEFT 100
+#define RIGHT 100
+#define LEFT 97
 #define DOWN 115
 #define TURNRIGHT 65363
 #define TURNLEFT 65361

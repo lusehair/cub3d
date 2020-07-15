@@ -1,16 +1,33 @@
 #include "cube3d.h"
 
-int   ft_onward(t_mlx *print)
+// int   ft_onward(t_mlx *print)
+// {
+//     if(print->mapchar[(int)(print->raycast.posY + print->raycast.dirY * 0.10)][(int)print->raycast.posX] != '1')
+//         print->raycast.posY += print->raycast.dirY * 0.10; 
+//     if(print->mapchar[(int)print->raycast.posY][(int)(print->raycast.posX + print->raycast.dirX * 0.10)] != '1')
+//         print->raycast.posX += print->raycast.dirX * 0.10; 
+//     ft_bzero(print->img.data, print->raycast.w * print->raycast.h * 4);
+//     ft_drawwalls(print);  
+//     return (1);
+
+// }
+
+int ft_onward(t_mlx *print)
 {
-    if(print->mapchar[(int)(print->raycast.posY + print->raycast.dirY * 0.10)][(int)print->raycast.posX] != '1')
-        print->raycast.posY += print->raycast.dirY * 0.10; 
-    if(print->mapchar[(int)print->raycast.posY][(int)(print->raycast.posX + print->raycast.dirX * 0.10)] != '1')
-        print->raycast.posX += print->raycast.dirX * 0.10; 
+    if (print->mapchar[(int)print->raycast.posY]
+		[(int)(print->raycast.posX + print->raycast.dirX
+		* 0.10)] != '1')
+		print->raycast.posX += print->raycast.dirX
+		* 0.10;
+	if (print->mapchar[(int)(print->raycast.posY
+		+ print->raycast.dirY * 0.10)]
+		[(int)print->raycast.posX] != '1')
+		print->raycast.posY += print->raycast.dirY * 0.10;
     ft_bzero(print->img.data, print->raycast.w * print->raycast.h * 4);
     ft_drawwalls(print);  
-    return (1);
-
+    return (0);
 }
+
 
 int ft_checkray(int x, int y, t_mlx *print)
 {
@@ -79,16 +96,35 @@ int ft_onleft(t_mlx *print)
     return (1);
 }
 
-int ft_forward(t_mlx *print)
+
+int   ft_forward(t_mlx *print)
 {
-    if(print->mapchar[(int)(print->raycast.posY + print->raycast.dirY * 0.10)][(int)print->raycast.posX] != '1')
-        print->raycast.posY -= print->raycast.dirY * 0.10; 
-    if(print->mapchar[(int)print->raycast.posY][(int)(print->raycast.posX + print->raycast.dirX * 0.10)] != '1')
-        print->raycast.posX -= print->raycast.dirX * 0.10; 
+    if (print->mapchar[(int)print->raycast.posY]
+		[(int)(print->raycast.posX - print->raycast.dirX
+		* 0.10)] != '1')
+		print->raycast.posX -= print->raycast.dirX
+		* 0.10;
+	if (print->mapchar[(int)(print->raycast.posY
+		- print->raycast.dirY * 0.10)]
+		[(int)print->raycast.posX] != '1')
+		print->raycast.posY -= print->raycast.dirY
+		* 0.10;
     ft_bzero(print->img.data, print->raycast.w * print->raycast.h * 4);
     ft_drawwalls(print);  
     return (1);
 }
+
+
+// int ft_forward(t_mlx *print)
+// {
+//     if(print->mapchar[(int)(print->raycast.posY + print->raycast.dirY * 0.10)][(int)print->raycast.posX] != '1')
+//         print->raycast.posY -= print->raycast.dirY * 0.10; 
+//     if(print->mapchar[(int)print->raycast.posY][(int)(print->raycast.posX + print->raycast.dirX * 0.10)] != '1')
+//         print->raycast.posX -= print->raycast.dirX * 0.10; 
+//     ft_bzero(print->img.data, print->raycast.w * print->raycast.h * 4);
+//     ft_drawwalls(print);  
+//     return (1);
+// }
 
 int g_is_up_pressed = 0;
 
@@ -103,13 +139,13 @@ int    keycode(int key, void *bidule)
         ft_onward(bidule); 
     if(key == DOWN)
         ft_forward(bidule); 
-    if(key == LEFT)
-        ft_onleft(bidule);
-    if(key == RIGHT)
-        ft_onright(bidule);
-    if(key == TURNRIGHT)
-        ft_right(bidule);
     if(key == TURNLEFT)
+        ft_onleft(bidule);
+    if(key == TURNRIGHT)
+        ft_onright(bidule);
+    if(key == RIGHT)
+        ft_right(bidule);
+    if(key == LEFT)
         ft_left(bidule);
     //ft_drawwalls(bidule); 
     return(1);

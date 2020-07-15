@@ -22,7 +22,7 @@ int     ft_initsprites(t_mlx *data)
         return (-1);
     while (y < data->confstyle.longmap)
     {
-        ft_printf("|%s|\n", data->mapchar[y]);
+        //ft_printf("|%s|\n", data->mapchar[y]);
         while (data->mapchar[y][x])
         {
             //ft_printf("THE LINE %d |%s|\n", x, data->mapchar[x]);
@@ -40,42 +40,78 @@ int     ft_initsprites(t_mlx *data)
     return (0);
 }
 
-void    sortS(t_mlx *data)
+double power2(double x)
+{
+  return x * x;
+}
+
+void  sortS(t_mlx *data)
 {
   int i;
-  t_sprite stemp; 
+  double dista;
+  double distb; 
 
-  i = 0;
-  while(i < data->confstyle.nbsprite) 
-  {
-    data->raycast.sprites[i].dist = ((data->raycast.posX - data->raycast.sprites[i].x) * (data->raycast.posX - data->raycast.sprites[i].x)
-     + (data->raycast.posY - data->raycast.sprites[i].y) * (data->raycast.posY - data->raycast.sprites[i].y));
-     i++;
-  }
-  i = 0; 
+  t_sprite stemp;
+
+  i= 0; 
   while(i < data->confstyle.nbsprite - 1)
   {
-    if(data->raycast.sprites[i].dist > data->raycast.sprites[i+1].dist)
+    dista = power2(data->raycast.posX - data->raycast.sprites[i].x) 
+    + power2(data->raycast.posY - data->raycast.sprites[i].y);
+    distb = power2(data->raycast.posX - data->raycast.sprites[i+1].x) 
+    + power2(data->raycast.posY - data->raycast.sprites[i+1].y);
+    if(dista < distb)
     {
       stemp = data->raycast.sprites[i];
-      data->raycast.sprites[i] = data->raycast.sprites[i + 1]; 
+      data->raycast.sprites[i] = data->raycast.sprites[i +1];
       data->raycast.sprites[i + 1] = stemp; 
       i = 0;
-    }  
-  i++;
+    }
+    else 
+      i++;
   }
 }
+
+// void    sortS(t_mlx *data)
+// {
+//   int i;
+//   t_sprite stemp; 
+
+//   i = 0;
+//   while(i < data->confstyle.nbsprite) 
+//   {
+//     data->raycast.sprites[i].dist = ((data->raycast.posX - data->raycast.sprites[i].x) * (data->raycast.posX - data->raycast.sprites[i].x)
+//      + (data->raycast.posY - data->raycast.sprites[i].y) * (data->raycast.posY - data->raycast.sprites[i].y));
+//      i++;
+//   }
+//   i = 0; 
+//   while(i < data->confstyle.nbsprite - 1)
+//   {
+//     if(data->raycast.sprites[i].dist > data->raycast.sprites[i+1].dist)
+//     {
+//       stemp = data->raycast.sprites[i];
+//       data->raycast.sprites[i] = data->raycast.sprites[i + 1]; 
+//       data->raycast.sprites[i + 1] = stemp; 
+//       i = 0;
+//     }  
+//   i++;
+//   }
+// }
+
+
 
 int     ft_drawsprite(t_mlx *data)
 {
   int i; 
 
   i = 0; 
-  while(i < data->confstyle.nbsprite)
+   while (i < data->confstyle.nbsprite)
   {
     data->raycast.spriteOrder[i] = i;
-    data->raycast.spriteDistance[i] = ((data->raycast.posX - data->raycast.sprites[i].x) * (data->raycast.posX - data->raycast.sprites[i].x) + (data->raycast.posY - data->raycast.sprites[i].y) * (data->raycast.posY - data->raycast.sprites[i].y)); 
-    i++; 
+    data->raycast.spriteDistance[i] = power2(data->raycast.posX - data->raycast.sprites[i].x) + power2(data->raycast.posY - data->raycast.sprites[i].y);
+    //printf("%f\n", data->raycast.spriteDistance[i]);
+
+    i++;
   }
   sortS(data);
   i = 0;
