@@ -151,6 +151,8 @@ int     ft_drawsprite(t_mlx *data)
           {
             data->raysprite.d = (data->raysprite.y) * 256 - data->raycast.h * 128 + data->raysprite.spriteHeight * 128; 
             data->raysprite.texY = ((data->raysprite.d * data->textsprite.img_weight) / data->raysprite.spriteHeight) /256 ;
+            
+            if (data->raysprite.texY > 100 || data->raysprite.texY < 0) printf("++++ %d\n", data->raysprite.texY); fflush(stdout);
             data->raysprite.color = data->textsprite.data[data->textsprite.img_width  * data->raysprite.texY + data->raysprite.texX]; 
             if((data->raysprite.color & 0x00FFFFFF) != 0) 
             {

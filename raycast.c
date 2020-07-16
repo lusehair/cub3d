@@ -107,6 +107,7 @@ void   cut_the_wall(t_mlx *print)
 int     ft_drawwalls(t_mlx *print)
 {
     print->raycast.x = 0; 
+    //ft_bzero(print->img.data, print->raycast.w * print->raycast.h * 4);
     while(print->raycast.x < print->raycast.w)
     {
       print->raycast.cameraX = 2 * print->raycast.x / (double)print->raycast.w - 1;

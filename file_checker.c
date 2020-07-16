@@ -14,6 +14,13 @@ void       conf_reseter(t_mlx *data)
     data->pos.dirX = 0;
     data->confstyle.largmap = 0;
     data->confstyle.posmap = 0;
+    data->keyroad.back = 0; 
+    data->keyroad.front = 0; 
+    data->keyroad.left = 0; 
+    data->keyroad.right = 0; 
+    data->keyroad.turnleft = 0; 
+    data->keyroad.turnright = 0; 
+    
 }
 
 int     checkfullopt(int *checkfull)
@@ -66,7 +73,7 @@ int     ft_checkbadconf(char *buff)
     int i; 
 
     i = 0;    
-    ft_printf("NO WAY |%s|\n", buff);
+    //ft_printf("NO WAY |%s|\n", buff);
     while(buff[i] !='\0')
     {
         ft_printf("|%c|", buff[i]);

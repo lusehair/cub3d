@@ -6,15 +6,20 @@ char *line_checker(char *line, t_initstyle *confstyle, int nb)
     int i; 
     char *temp; 
     
+    temp = NULL;
     i = 0;
-    temp = malloc(sizeof(char) * (ft_strlen(line)) +1); 
-    while(line[i] != '\0')
+
+    if(!(temp = malloc(sizeof(char) * (ft_strlen(line)))))
+        return (NULL); 
+    while(line[i])
     {
-        if (line[i] && ((line[i] >= '0' && line[i] <= '3') || line[i] == 'W' || line[i] =='E'
+        if (line[i] && ((line[i] >= '0' && line[i] < '3') || line[i] == 'W' || line[i] =='E'
         || line[i] == 'S' || line[i] == 'N' || line[i] == ' ' || line[i] == '1'))
             temp[i] = line[i]; 
         else
+        {   free(line);
             return (NULL); 
+        }
         i++;
     }
     temp[i] = '\0';
@@ -178,7 +183,7 @@ int spacewalker(t_mlx *data, int x, int y)
 {
     if (y < data->confstyle.longmap)
     {
-        if(x < ft_strlen(data->mapchar[y] -1))
+        if(x < ft_strlen(data->mapchar[y]-1))
         {
             if(data->mapchar[y][x+1] == ' ')
                 spacewalker(data,x+1,y);
@@ -197,6 +202,12 @@ int zerowalker(t_mlx *data, int x, int y)
 {
     int ret; 
     
+    if(y == 2 && x == 7)
+    {
+        ft_printf("the FUUUCKING LINE %s AND THE FUCKING CHAR %c\n", data->mapchar[2], data->mapchar[2][7]);
+        ft_printf("AND OOH WHAT THAT THING MADAFA ??? |%c|\n", data->mapchar[3][7]);
+        ft_printf("BOOOOOORDEL %d\n", ft_strlen(data->mapchar[3]));
+    }
     ret = 0;
     if(data->mapchar[y][x+1] == ' ')
         return (-1);
@@ -206,12 +217,16 @@ int zerowalker(t_mlx *data, int x, int y)
         return (-1);
     if(data->mapchar[y+1][x] == '0')
         ret = 0;
+    if(!data->mapchar[y+1][x])
+        return (-1);
     if(data->mapchar[y][x+1] == '1')
         ret = 0;
     if(data->mapchar[y+1][x] == '1')
         ret = 0;
-    if(ft_strlen(data->mapchar[y-1]) < x)
-        return (-1);
+    //if(ft_strlen(data->mapchar[y-1]) < x)
+      //  return (-1);
+    //if(ft_strlen(data->mapchar[y+1]) < x)
+      //  return (-1);
     return (ret);
 }
 
@@ -222,7 +237,8 @@ char     **get_map(int fd, t_initstyle *confstyle, char *path)
     char *line; 
 
     i = 0;  
-    while (get_next_line(fd, &line))
+    line = NULL;
+    while (get_next_line(fd, &line) == 1)
     {
         if (ft_strlen(line) > 0)
         {
@@ -232,10 +248,13 @@ char     **get_map(int fd, t_initstyle *confstyle, char *path)
                 ft_close_inside_map(mapchar, confstyle);
             confstyle->nbsprite += ft_countsprite(line);
             i++; 
+            free(line);
         }
     }
-    if(!(mapchar[i] = line_checker(line, confstyle, i)))
-        ft_close_inside_map(mapchar, confstyle); 
+    ft_printf("-- LARG INIT %d--\n", confstyle->largmap);
+    if(ft_strlen(line) > 0)
+        if(!(mapchar[i] = line_checker(line, confstyle, i)))
+            ft_close_inside_map(mapchar, confstyle); 
     if (ft_strlen(line) == 0)
         i--;
     confstyle->longmap = i;
@@ -259,7 +278,6 @@ int     ft_mapsizer(int fd, char **argv, t_mlx *data)
     }
     free(line);
     close(fd);
-     //nbline++;
     fd = open(argv[1], O_RDONLY); 
     while(get_next_line(fd, &line) && i < data->confstyle.posmap)
     {

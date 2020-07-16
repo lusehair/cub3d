@@ -53,11 +53,14 @@ void    ft_close_map(t_mlx *data)
     int y; 
 
     y = 0;
-    while(y <= data->confstyle.longmap)
+    while(y < data->confstyle.longmap)
     {
-        free(data->mapchar[y]);
+        if(data->mapchar[y])
+            free(data->mapchar[y]);
         y++;
     }
+    printf("-- Y : %d\n",y );
+    //free(data->mapchar);
 }
 
 int    ft_closehook(int key, void *data)

@@ -63,6 +63,18 @@ typedef struct s_sprite
 } t_sprite; 
 
 
+typedef struct  s_keyroad
+{
+    char right; 
+    char left; 
+    char front; 
+    char back; 
+    char turnright;
+    char turnleft;
+    char close;
+}   t_keyroad;
+
+
 typedef struct s_raycast
 {
     double posX;  //x and y start position
@@ -195,6 +207,7 @@ typedef struct	s_mlx
     t_texture   textsprite; 
     t_raysprite raysprite;
     t_pic       pic; 
+    t_keyroad   keyroad;
 }				t_mlx;
 
 
@@ -231,7 +244,7 @@ int     drawline(int x1, int y1, int y2, t_mlx *print, int color);
 int     ft_drawwalls(t_mlx *print);
 int    ft_initrcstruct(t_raycast *raycast,  t_initstyle *style, t_pos pos);
 void     ft_RBGtoINT(t_initstyle *confstyle);
-int    keycode(int key, void *bidule); 
+int    keycode(void *bidule); 
 int ft_close(t_mlx *data, int bad);
 int     ft_checkone(t_mlx *data); 
 void     ft_opentexture(t_mlx *print);
@@ -248,6 +261,9 @@ int zerowalker(t_mlx *data, int x, int y);
 int    ft_closehook(int key, void *data); 
 int    ft_savepic(t_mlx *data);
 void      ft_checkres(t_mlx *data);    
+int    keycoderelease(int key, void *bidule); 
+int    keycodepress(int key, void *bidule);
+
 
 
 
