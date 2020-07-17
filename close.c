@@ -15,7 +15,7 @@ void ft_close_path(t_mlx *data)
     if(data->confstyle.t_pathsprite != NULL)
         free(data->confstyle.t_pathsprite);
 }
-// POSSIBLE LEAKS (FREE PAS PROPRE)
+
 void    ft_close_inside_map(char **mapinside, t_initstyle *style)
 {
      int y; 
@@ -76,7 +76,7 @@ int ft_close(t_mlx *data, int bad)
     {
         ft_putstr("Goodbye, See you soon !\n");
         ft_close_map(data);
-        ft_close_path(data);
+        //ft_close_path(data);
         ft_close_sprite(data);
         mlx_destroy_image(data->mlx_ptr, data->img.img_ptr); 
         if(data->issave == 0)
@@ -86,7 +86,7 @@ int ft_close(t_mlx *data, int bad)
     if(bad == BADMAP)
     {
         ft_putstr("Bad Mapping. Sorry ...\n");
-        ft_close_path(data); 
+        //ft_close_path(data); 
         ft_close_map(data);
         //mlx_destroy_window(data->mlx_ptr, data->win); 
         exit(-1);
@@ -94,16 +94,16 @@ int ft_close(t_mlx *data, int bad)
     }
     if(bad == BADPATH)
     {
-        ft_close_path(data);
+        //ft_close_path(data);
         ft_close_map(data);
-        mlx_destroy_window(data->mlx_ptr, data->win); 
+        //mlx_destroy_window(data->mlx_ptr, data->win); 
         ft_printf("ERROR OPENNING TEXTURE\n");
         exit(-1);
 
     }
     if(bad == BADARGUM)
     {
-        ft_close_path(data);
+        //ft_close_path(data);
         ft_printf("BAD ARGUMENTS\n");
         exit(-1);
   
