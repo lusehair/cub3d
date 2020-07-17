@@ -39,6 +39,7 @@ int    ft_savepic(t_mlx *data)
     int x;
     int i; 
 
+    ft_drawwalls(data);
     if(!(fd = open("lusehair_Cube3D.bmp", O_RDWR | O_CREAT, 77777)))
         return (-1);
     ft_pic_init(data);
@@ -64,6 +65,7 @@ int    ft_savepic(t_mlx *data)
         }
         //write(fd, mem, (int)(data->confstyle.r_res[0] * data->confstyle.r_res[1] * 4));
     }
+    ft_close(data, GOODBYE); 
     return (0);
 }
 

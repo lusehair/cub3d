@@ -197,6 +197,7 @@ typedef struct	s_mlx
 	void		*win;
 	t_img		img;
     char        **mapchar;
+    char        issave;
     t_raycast   raycast;
     t_pos       pos; 
     t_initstyle confstyle; 
@@ -237,7 +238,7 @@ int    optselector(struct s_initstyle *confstyle, char *buff, int *checkfull);
 int    mappush(struct s_buildmap **prec, char *line); 
 int SizeLineMap(struct s_buildmap *mapbuilder); 
 int printmap(t_buildmap *mapbuilder);
-char     **get_map(int fd, t_initstyle *confstyle, char *path); 
+char     **get_map(int fd, t_initstyle *confstyle); 
 int   mini_drawmap(char **mapchar, void *mlx_ptr, void *win_ptr);
 t_pos    getCampos(char **mapchar, t_initstyle confstyle);
 int     drawline(int x1, int y1, int y2, t_mlx *print, int color);

@@ -149,7 +149,7 @@ int     ft_drawsprite(t_mlx *data)
 
           while(data->raysprite.y < data->raysprite.drawEndY) 
           {
-            data->raysprite.d = (data->raysprite.y) * 256 - data->raycast.h * 128 + data->raysprite.spriteHeight * 128; 
+            data->raysprite.d = (data->raysprite.y -data->raysprite.vMoveScreen) * 256 - data->raycast.h * 128 + data->raysprite.spriteHeight * 128; 
             data->raysprite.texY = ((data->raysprite.d * data->textsprite.img_weight) / data->raysprite.spriteHeight) /256 ;
             
             if (data->raysprite.texY > 100 || data->raysprite.texY < 0) printf("++++ %d\n", data->raysprite.texY); fflush(stdout);

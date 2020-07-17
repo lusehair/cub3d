@@ -66,7 +66,7 @@ void    ft_close_map(t_mlx *data)
 int    ft_closehook(int key, void *data)
 {
     ft_close(data, GOODBYE);
-    return (0);
+    return (key);
 }
 
 int ft_close(t_mlx *data, int bad)
@@ -79,7 +79,8 @@ int ft_close(t_mlx *data, int bad)
         ft_close_path(data);
         ft_close_sprite(data);
         mlx_destroy_image(data->mlx_ptr, data->img.img_ptr); 
-        mlx_destroy_window(data->mlx_ptr, data->win); 
+        if(data->issave == 0)
+            mlx_destroy_window(data->mlx_ptr, data->win); 
         exit(0);
     }
     if(bad == BADMAP)

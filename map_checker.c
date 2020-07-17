@@ -1,14 +1,14 @@
 #include "cube3d.h"
 #include "libft/get_next_line.h"
 
-char *line_checker(char *line, t_initstyle *confstyle, int nb)
+char *line_checker(char *line)
 {
     int i; 
     char *temp; 
     
     temp = NULL;
     i = 0;
-
+    printf("LINE CHECKER %s\n", line);
     if(!(temp = malloc(sizeof(char) * (ft_strlen(line)))))
         return (NULL); 
     while(line[i])
@@ -43,7 +43,6 @@ t_pos    getCampos(char **mapchar, t_initstyle confstyle)
             || mapchar[y][x] == 'S')
             {
                 pos.dir = mapchar[y][x];
-                puts("no no");
                 pos.posX = x;
                 pos.posY = y; 
                 if(mapchar[y][x] == 'N')
@@ -84,7 +83,7 @@ int     ft_checkone(t_mlx *data)
 
   y = 0;
   x = 0;
-  while(x < ft_strlen(data->mapchar[y]))
+  while(x < (int)ft_strlen(data->mapchar[y]))
   {
       if(data->mapchar[y][x] == '1')
         x++;
@@ -95,8 +94,8 @@ int     ft_checkone(t_mlx *data)
       x++;
   }
   x = 0;
-  y = data->confstyle.longmap;
-while(x < ft_strlen(data->mapchar[y]))
+  y = data->confstyle.longmap - 1;
+while(x < (int)ft_strlen(data->mapchar[y]))
   {
       if(data->mapchar[y][x] == 1)
         x++;
@@ -126,7 +125,6 @@ int     ft_countsprite(char *line)
 int     ft_checkborder(char *line)
 {
     int i; 
-    int out; 
 
     i = 0; 
     while(line[i] != '\0')
@@ -159,11 +157,12 @@ int spacefounder(t_mlx *data)
 
     x = 0;
     y = 0; 
-    while(y < data->confstyle.longmap)
+    while(y < data->confstyle.largmap)
     {
+        ft_printf("this is --> %s <--\n", data->mapchar[y]);
         if(ft_checkborder(data->mapchar[y]) == -1)
             ft_close(data, BADMAP);
-        while(x < ft_strlen(data->mapchar[y]))
+        while(x < (int)ft_strlen(data->mapchar[y]))
         {
                 if(data->mapchar[y][x] == '0')
                     if(zerowalker(data,x,y) == -1)
@@ -174,7 +173,8 @@ int spacefounder(t_mlx *data)
         }
         x = 0;
         y++;
-            
+        ft_printf("this is the y in zero %d instead of the %d\n", y, data->confstyle.longmap);        
+         
     }
     return (0);
 }
@@ -183,7 +183,7 @@ int spacewalker(t_mlx *data, int x, int y)
 {
     if (y < data->confstyle.longmap)
     {
-        if(x < ft_strlen(data->mapchar[y]-1))
+        if(x < (int)ft_strlen(data->mapchar[y]-1))
         {
             if(data->mapchar[y][x+1] == ' ')
                 spacewalker(data,x+1,y);
@@ -202,12 +202,6 @@ int zerowalker(t_mlx *data, int x, int y)
 {
     int ret; 
     
-    if(y == 2 && x == 7)
-    {
-        ft_printf("the FUUUCKING LINE %s AND THE FUCKING CHAR %c\n", data->mapchar[2], data->mapchar[2][7]);
-        ft_printf("AND OOH WHAT THAT THING MADAFA ??? |%c|\n", data->mapchar[3][7]);
-        ft_printf("BOOOOOORDEL %d\n", ft_strlen(data->mapchar[3]));
-    }
     ret = 0;
     if(data->mapchar[y][x+1] == ' ')
         return (-1);
@@ -230,35 +224,34 @@ int zerowalker(t_mlx *data, int x, int y)
     return (ret);
 }
 
-char     **get_map(int fd, t_initstyle *confstyle, char *path)
+char     **get_map(int fd, t_initstyle *confstyle)
 {
     char **mapchar;
     int i; 
     char *line; 
 
-    i = 0;  
-    line = NULL;
-    while (get_next_line(fd, &line) == 1)
+    i = 0;
+    ft_printf("this is --> %d <--\n", confstyle->largmap);
+    while (i <= confstyle->largmap)
     {
+        get_next_line(fd, &line);
         if (ft_strlen(line) > 0)
         {
             if(i == 0)
-                mapchar = malloc(sizeof(char*) * confstyle->largmap); 
-            if(!(mapchar[i] = line_checker(line, confstyle, i)))
+                mapchar = malloc(sizeof(char*) * confstyle->largmap);
+            if(!(mapchar[i] = line_checker(line)))
                 ft_close_inside_map(mapchar, confstyle);
             confstyle->nbsprite += ft_countsprite(line);
             i++; 
             free(line);
         }
+        else  
+            free(line);       
     }
-    ft_printf("-- LARG INIT %d--\n", confstyle->largmap);
-    if(ft_strlen(line) > 0)
-        if(!(mapchar[i] = line_checker(line, confstyle, i)))
-            ft_close_inside_map(mapchar, confstyle); 
-    if (ft_strlen(line) == 0)
-        i--;
+    // if(line)
+    //     free(line);
     confstyle->longmap = i;
-    free(line);
+    //free(line);
     return (mapchar); 
 }
 
@@ -272,11 +265,19 @@ int     ft_mapsizer(int fd, char **argv, t_mlx *data)
     nbline = 0;
     while(get_next_line(fd, &line))
     {
-        if(ft_strlen(line) > 0)
+        if(ft_strlen(line) > 0)   
+        {
             nbline++;
-            free(line);
+            printf("THE LINE IN ORIGIN --> %s\n", line);
+        }
+       free(line);
     }
-    free(line);
+    if(line)
+    {
+        if(ft_strlen(line) == 0)
+            nbline--;
+        free(line);
+    }
     close(fd);
     fd = open(argv[1], O_RDONLY); 
     while(get_next_line(fd, &line) && i < data->confstyle.posmap)
@@ -285,37 +286,6 @@ int     ft_mapsizer(int fd, char **argv, t_mlx *data)
             free(line);
     } 
     free(line);
-    ft_printf("this is the nb line %d\n", nbline);
+    printf("---> THE ORIGIN %d<----", nbline);
     return (nbline);
 }
-
-
-// int zerowalker(t_mlx *data, int x, int y)
-// {
-    
-//     //ft_printf("|%c| y : %d et x : %d\n", data->mapchar[y][x], y, x);
-//     if (y < data->confstyle.longmap)
-//     {
-//         if(x < ft_strlen(data->mapchar[y]))
-//         {
-//             if(data->mapchar[y][x+1] == '0')
-//             {    
-//                 zerowalker(data,x+1,y);
-//             }
-//             if(data->mapchar[y+1][x] == '0')
-//             {
-//                 zerowalker(data, x, y+1);
-//                 puts("maybe here");
-//             }
-//             //if(y == 11 && x == 8 && data->mapchar[y+1][x] == ' ')
-//             if(data->mapchar[y][x+1] == '1' || data->mapchar[y+1][x] == '1')
-//                 return(0);
-//             if(data->mapchar[y][x+1] == ' ' || data->mapchar[y+1][x] == ' ')
-//             {
-//                 puts("Bonne pioche1");
-//                 ft_close(data, BADMAP);
-//             }         
-//         }
-//     }
-//     return (0);
-// }

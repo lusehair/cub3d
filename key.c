@@ -53,7 +53,7 @@ int  ft_onright(t_mlx *print)
 {
     double temp; 
     double tempPlaneX;
-    double dist; 
+   
     temp= print->raycast.dirX; 
     tempPlaneX = print->raycast.planeX;
     print->raycast.dirX = print->raycast.dirX * cos(-0.03) - print->raycast.dirY * sin(-0.03); 
@@ -61,10 +61,6 @@ int  ft_onright(t_mlx *print)
     temp = print->raycast.planeX;
     print->raycast.planeX = print->raycast.planeX * cos(-0.03) - print->raycast.planeY * sin(-0.03); 
     print->raycast.planeY = temp * sin(-0.03) + print->raycast.planeY * cos(-0.03); 
- 
-
-    //ft_bzero(print->img.data, print->raycast.w * print->raycast.h * 4); 
-    //ft_drawwalls(print); 
     return (1);
 }
 
@@ -72,7 +68,6 @@ int ft_onleft(t_mlx *print)
 {
     double temp; 
     double tempPlaneX; 
-    double dist;
 
     temp= print->raycast.dirX; 
     tempPlaneX = print->raycast.planeX;
@@ -120,7 +115,6 @@ int g_is_up_pressed = 0;
 
 int    keycodepress(int key, void *bidule)
 {
-    int put;
     ft_printf("The key : %d\n", key);
     t_mlx *data;
 
@@ -150,7 +144,6 @@ int    keycodepress(int key, void *bidule)
 
 int    keycoderelease(int key, void *bidule)
 {
-    int put;
     ft_printf("The key : %d\n", key);
     t_mlx *data;
 

@@ -129,6 +129,7 @@ int     ft_drawwalls(t_mlx *print)
     }
     if(print->confstyle.nbsprite > 0)
     ft_drawsprite(print);
-    mlx_put_image_to_window(print->mlx_ptr, print->win, print->img.img_ptr, 0, 0);
+    if (print->issave == 0)
+      mlx_put_image_to_window(print->mlx_ptr, print->win, print->img.img_ptr, 0, 0);      
     return (0);
 }

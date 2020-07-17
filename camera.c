@@ -32,10 +32,8 @@ t_texture   selecwall(t_mlx *print)
 int     drawall(int x, int y1, int y2, t_mlx *print)
 {
     unsigned int color;
-    int i;
     t_texture text; 
 
-    i = y1;
     text = selecwall(print); 
     print->raycast.wall_x -= floor((print->raycast.wall_x));
     print->raycast.texx = print->raycast.wall_x * text.img_width;

@@ -22,31 +22,32 @@ int     main(int argc, char **argv)
 
     t_mlx print; 
     int fd; 
-    int i;
-    char *line;
 
-    i = 0;
     if (argc < 2)
 	    return (-1);
     if(argc > 3)
         return (-1);
-    fd = open(argv[1], O_RDONLY);
+    if((ft_strncmp(ft_strrev(argv[1]), "buc.", 3)) != 0)
+        return (-1);
+    else
+        ft_strrev(argv[1]);
+    if ((fd = open(argv[1], O_RDONLY)) == -1)
+        return (-1);
     initstyle(fd, &print);
     print.confstyle.largmap = ft_mapsizer(fd, argv, &print);     
-    print.mapchar = get_map(fd, &print.confstyle, argv[1]);
+    print.mapchar = get_map(fd, &print.confstyle);
     spacefounder(&print);
     print.pos = getCampos(print.mapchar, print.confstyle); 
     if(print.pos.posX == 0)
-        ft_close(&print, BADARGUM);
+        ft_close(&print, BADMAP);
     
-    // if (ft_checkone(&print) == 1)
-    // {
-    //     puts("ohoh !");
-    //     ft_close(&print, BADMAP);
-    // }
+    if (ft_checkone(&print) == 1)
+    {
+        puts("ohoh !");
+        ft_close(&print, BADMAP);
+    }
     print.mlx_ptr = mlx_init();
         ft_checkres(&print);    
-    print.win = mlx_new_window(print.mlx_ptr, print.confstyle.r_res[0], print.confstyle.r_res[1], "screen test"); 
     ft_initrcstruct(&print.raycast,&print.confstyle, print.pos); 
     ft_initsprites(&print); 
     print.img.img_ptr = mlx_new_image(print.mlx_ptr, print.raycast.w, print.raycast.h);
@@ -57,14 +58,16 @@ int     main(int argc, char **argv)
     {
         if(ft_strncmp(argv[2], "--save", 6) == 0)
         {
-        ft_savepic(&print);
+            print.issave = 1;
+            ft_savepic(&print);
         }
         else
             return (-1);
     }
+    print.win = mlx_new_window(print.mlx_ptr, print.confstyle.r_res[0], print.confstyle.r_res[1], "screen test"); 
     mlx_hook(print.win,2, 1L << 0 ,keycodepress,&print); 
     mlx_hook(print.win,3, 1L <<  1,keycoderelease,&print); 
-    mlx_hook(print.win, 17, 0, ft_closehook, &print);
+    //mlx_hook(print.win, 17, 1L << 17, ft_closehook, &print);
     mlx_loop_hook(print.mlx_ptr, theloop,&print);
     mlx_loop(print.mlx_ptr); 
     return (0);

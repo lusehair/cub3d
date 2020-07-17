@@ -20,6 +20,7 @@ void       conf_reseter(t_mlx *data)
     data->keyroad.right = 0; 
     data->keyroad.turnleft = 0; 
     data->keyroad.turnright = 0; 
+    data->issave = 0;
     
 }
 
